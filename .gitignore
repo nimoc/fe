@@ -4,3 +4,4 @@ Gruntfile.js
 ./index.html
 ./html
 ./CNAME
+./static
