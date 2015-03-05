@@ -6,7 +6,7 @@
     "githubissuesid": 2,
     "createData": "2013-11-06",
     "keywords": "js,replace,javascript",
-    "description":"本文详细介绍 JavaScript 中 replace 的三种使用方法"
+    "description":"本文详细介绍了 JavaScript 中 replace 的三种使用方法"
 }
 _PAGEDATA-->
 
