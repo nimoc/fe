@@ -1,7 +1,14 @@
 深入理解JavaScript-replace
---------------------------
-
-<!-- Create Date: 2013-11-06 -->
+-------------------------
+<!--_PAGEDATA
+{
+    "title": "深入理解JavaScript-replace",
+    "githubissuesid": 2,
+    "createData": "2013-11-06",
+    "keywords": "js,replace,javascript",
+    "description":"本文详细介绍 JavaScript 中 replace 的三种使用方法"
+}
+_PAGEDATA-->
 
 
 replace方法是属于String对象的，可用于替换字符串。

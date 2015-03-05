@@ -1,7 +1,15 @@
 JavaScript初学者建议：不要去管浏览器兼容
 --------------------------
 
-<!-- Create Date: 2014-01-01 -->
+<!--_PAGEDATA
+{
+    "title": "JavaScript初学者建议：不要去管浏览器兼容",
+    "githubissuesid": 1,
+    "createData": "2014-01-01",
+    "keywords": "前端开发入门教程,学习javascript,javascript教程,javascript入门",
+    "description":"给javascript新手的一些学习建议：初学 JavaScript 的时候无视 DOM 和 BOM 的兼容性"
+}
+_PAGEDATA-->
 
 如果可以回到过去的话，我会告诉自己这句话：**"初学 JavaScript 的时候无视 DOM 和 BOM 的兼容性"**
 

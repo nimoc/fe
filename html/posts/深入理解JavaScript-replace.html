@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>深入理解JavaScript-replace</title>
+    <link rel="stylesheet" href="../../static/bootstrap/3.3.2/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/nimojs-blog/site.css">
+    <meta name="keywords" content="js,replace,javascript" />
+    <meta name="description" content="本文详细介绍 JavaScript 中 replace 的三种使用方法" />
+</head>
+<body>
+<!-- Header S -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.github.com/nimojs/blog/">Home</a>
+    </div>
+    <div class="navbar-collapse collapse" role="navigation">
+      <ul class="nav navbar-nav navbar-right hidden-sm">
+        <li>
+        <iframe class="githubstar" src="http://ghbtns.com/github-btn.html?user=nimojs&repo=blog&type=watch&count=true&size=little" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20">
+        </iframe>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Header E -->
+<div class="container">
+<h2 id="-javascript-replace">深入理解JavaScript-replace</h2>
+<!--_PAGEDATA
+{
+    "title": "深入理解JavaScript-replace",
+    "githubissuesid": 2,
+    "createData": "2013-11-06",
+    "keywords": "js,replace,javascript",
+    "description":"本文详细介绍 JavaScript 中 replace 的三种使用方法"
+}
+_PAGEDATA-->
+<p>replace方法是属于String对象的，可用于替换字符串。</p>
+<h2 id="-">简单介绍:</h2>
+<p><code>String.replace(searchValue,replaceValue)</code></p>
+<ol>
+<li>String:字符串</li>
+<li>searchValue：字符串或正则表达式</li>
+<li>replaceValue:字符串或者函数</li>
+</ol>
+<h2 id="-">字符串替换字符串</h2>
+<pre><code class="lang-javascript"><span class="hljs-string">'I am loser!'</span>.replace(<span class="hljs-string">'loser'</span>,<span class="hljs-string">'hero'</span>)
+<span class="hljs-comment">//I am hero!</span>
+</code></pre>
+<p>直接使用字符串能让自己从loser变成hero，但是如果有2个loser就不能一起变成hero了。</p>
+<pre><code class="lang-javascript"><span class="hljs-string">'I am loser,You are loser'</span>.replace(<span class="hljs-string">'loser'</span>,<span class="hljs-string">'hero'</span>);
+<span class="hljs-comment">//I am hero,You are loser</span>
+</code></pre>
+<h2 id="-">正则表达式替换为字符串</h2>
+<pre><code class="lang-javascript"><span class="hljs-string">'I am loser,You are loser'</span>.replace(<span class="hljs-regexp">/loser/g</span>,<span class="hljs-string">'hero'</span>)
+<span class="hljs-comment">//I am hero,You are hero</span>
+</code></pre>
+<p>使用正则表达式，并将正则的global属性改为true则可以让所有loser都变为hero</p>
+<h2 id="-">有趣的替换字符</h2>
+<p><code>replaceValue</code> 可以是字符串。如果字符串中有几个特定字符的话，会被转换为特定字符串。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字符</th>
+<th style="text-align:left">替换文本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$&amp;</td>
+<td style="text-align:left">与正则相匹配的字符串</td>
+</tr>
+<tr>
+<td style="text-align:left">$`</td>
+<td style="text-align:left">匹配字符串左边的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">$&#39;</td>
+<td style="text-align:left">匹配字符串右边的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">$1,$2,$3,…,$n</td>
+<td style="text-align:left">匹配结果中对应的分组匹配结果</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-">使用$&amp;字符给匹配字符加大括号</h3>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> sStr=<span class="hljs-string">'讨论一下正则表达式中的replace的用法'</span>;
+sStr.replace(<span class="hljs-regexp">/正则表达式/</span>,<span class="hljs-string">'{$&amp;}'</span>);
+<span class="hljs-comment">//讨论一下{正则表达式}中的replace的用法</span>
+</code></pre>
+<h3 id="-">使用$`和$&#39;字符替换内容</h3>
+<pre><code class="lang-javascript"><span class="hljs-string">'abc'</span>.replace(<span class="hljs-regexp">/b/</span>,<span class="hljs-string">"$`"</span>);<span class="hljs-comment">//aac</span>
+<span class="hljs-string">'abc'</span>.replace(<span class="hljs-regexp">/b/</span>,<span class="hljs-string">"$'"</span>);<span class="hljs-comment">//acc</span>
+</code></pre>
+<h3 id="-">使用分组匹配组合新的字符串</h3>
+<pre><code class="lang-javascript"><span class="hljs-string">'nimojs@126.com'</span>.replace(<span class="hljs-regexp">/(.+)(@)(.*)/</span>,<span class="hljs-string">"$2$1"</span>)<span class="hljs-comment">//@nimojs</span>
+</code></pre>
+<h2 id="replacevalue-">replaceValue参数可以是一个函数</h2>
+<p><code>String.replace(searchValue,replaceValue)</code> 中的<strong>replaceValue</strong>可以是一个函数.</p>
+<p>如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数）</p>
+<p><strong>先看例子帮助理解：</strong></p>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logArguments</span><span class="hljs-params">()</span></span>{    
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">arguments</span>);<span class="hljs-comment">//["nimojs@126.com", "nimojs", "@", "126.com", 0, "nimojs@126.com"] </span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'返回值会替换掉匹配到的目标'</span>
+}
+<span class="hljs-built_in">console</span>.log(
+    <span class="hljs-string">'nimojs@126.com'</span>.replace(<span class="hljs-regexp">/(.+)(@)(.*)/</span>,logArguments)
+)
+</code></pre>
+<p><strong>参数分别为</strong></p>
+<ol>
+<li>匹配到的字符串（此例为nimojs@126.com,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
+<li>如果正则使用了分组匹配就为多个否则无此参数。（此例的参数就分别为<code>&quot;nimojs&quot;, &quot;@&quot;, &quot;126.com&quot;</code>。推荐修改正则为/nimo/查看控制台中返回的arguments值）</li>
+<li>匹配字符串的对应索引位置（此例为0）</li>
+<li>原始字符串(此例为nimojs@126.com)</li>
+</ol>
+<h3 id="-a-g-">使用自定义函数将A-G字符串改为小写</h3>
+<pre><code class="lang-javascript"><span class="hljs-string">'JAVASCRIPT'</span>.replace(<span class="hljs-regexp">/[A-G]/g</span>,<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>].toLowerCase();
+})<span class="hljs-comment">//JaVaScRIPT</span>
+</code></pre>
+<h3 id="-">使用自定义函数做回调式替换将行内样式中的单引号删除</h3>
+<pre><code class="lang-javascript"><span class="hljs-string">'&lt;span style="font-family:\'微软雅黑\';"&gt;;demo&lt;/span&gt;'</span>.replace(<span class="hljs-regexp">/\'[^']+\'/g</span>,<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{      
+    <span class="hljs-keyword">var</span> sResult=<span class="hljs-built_in">arguments</span>[<span class="hljs-number">0</span>];
+    <span class="hljs-built_in">console</span>.log(sResult);<span class="hljs-comment">//'微软雅黑'</span>
+    sResult=sResult.replace(<span class="hljs-regexp">/\'/g</span>,<span class="hljs-string">''</span>);
+    <span class="hljs-built_in">console</span>.log(sResult);<span class="hljs-comment">//微软雅黑</span>
+    <span class="hljs-keyword">return</span> sResult;
+})<span class="hljs-comment">//&lt;span style="font-family:微软雅黑;"&gt;demo&lt;/span&gt;</span>
+</code></pre>
+<h2 id="-">最后的小试牛刀</h2>
+<p>这一节是交给阅读者发挥的内容：</p>
+<h3 id="-">洗扑克</h3>
+<p>需要将ThisNimojs-JavaScript使用正则替换成 <code>TJhaivsaNSicmroijpst</code></p>
+<p>访问Github原文进行讨论：<a href="https://github.com/nimojs/blog/issues/2">https://github.com/nimojs/blog/issues/2</a></p>
+
+
+<div id="ghComments" class="ui-comments" 
+    data-issue-id="2"
+    data-gh-name="nimojs/blog"
+>
+  <h3>评论</h3>
+  <div class="alert alert-warning">
+    你可以<a href="https://github.com/nimojs/blog/issues/2" target="_blank">点击此处</a> 添加评论。
+  </div>
+  <img class="loading" id="ghCommentsLoading" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-64.gif" alt="加载评论中...">
+
+</div>
+
+</div>
+<script src="../../static/jquery/1.11.1/jquery.min.js"></script>
+<script src="../../static/nimojs-blog/site.js"></script>
+</body>
+</html>
