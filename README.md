@@ -1,6 +1,6 @@
 F2E Blog
 
-## posts
+## The article
 
 #### 2014-01
 - [JavaScript初学者建议：不要去管浏览器兼容](https://github.com/nimojs/blog/issues/1)
