@@ -21,7 +21,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://www.github.com/nimojs/blog/">Github</a>
+      <a class="navbar-brand" href="/">Home</a>
     </div>
     <div class="navbar-collapse collapse" role="navigation">
       <ul class="nav navbar-nav navbar-right hidden-sm">
@@ -35,25 +35,9 @@
 </div>
 <!-- Header E -->
 <div class="container">
-    <h1>F2e Blog</h1>
-    <h2>Posts</h2>
-    <div id="readme"></div>
-    <img class="loading" id="ghCommentsLoading" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-64.gif" alt="加载评论中...">
-
+  <hr>
+    找不到该页面，返回首页 <a href="/">Home</a>
+    <hr>
 </div>
-<script src="static/jquery/1.11.1/jquery.min.js"></script>
-<script>
-function showlist (data) {
-    $('#ghCommentsLoading').hide();
-    var aHTML = ['<ul>'];
-    for(var i = 0 ;i<data.length;i++){
-        aHTML.push('<li>')
-        aHTML.push('<a href="' + data[i] + '">' + data[i].replace(/html\/posts\/(.*)?\.html/,'$1') + '</a>');
-        aHTML.push('</li>')
-    }
-    $('#readme').html(aHTML.join(''));
-}
-</script>
-<script src="html/data.js"></script>
 </body>
 </html>
