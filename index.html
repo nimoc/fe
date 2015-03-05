@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nimojs/Blog</title>
+    <link rel="stylesheet" href="static/bootstrap/3.3.2/bootstrap.min.css">
+    <link rel="stylesheet" href="static/nimojs-blog/site.css">
+</head>
+<body>
+<link rel="stylesheet" href="static/bootstrap/3.3.2/bootstrap.min.css">
+<link rel="stylesheet" href="static/nimojs-blog/site.css">
+<!-- Header S -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.github.com/nimojs/blog/">Github</a>
+    </div>
+    <div class="navbar-collapse collapse" role="navigation">
+      <ul class="nav navbar-nav navbar-right hidden-sm">
+        <li>
+        <iframe class="githubstar" src="http://ghbtns.com/github-btn.html?user=nimojs&repo=blog&type=watch&count=true&size=little" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20">
+        </iframe>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Header E -->
+<div class="container">
+    <h1>F2e Blog</h1>
+    <h2>Posts</h2>
+    <div id="readme"></div>
+    <img class="loading" id="ghCommentsLoading" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-64.gif" alt="加载评论中...">
+
+</div>
+<script src="static/jquery/1.11.1/jquery.min.js"></script>
+<script>
+function showlist (data) {
+    $('#ghCommentsLoading').hide();
+    var aHTML = ['<ul>'];
+    for(var i = 0 ;i<data.length;i++){
+        aHTML.push('<li>')
+        aHTML.push('<a href="' + data[i] + '">' + data[i].replace(/html\/posts\/(.*)?\.html/,'$1') + '</a>');
+        aHTML.push('</li>')
+    }
+    $('#readme').html(aHTML.join(''));
+}
+</script>
+<script src="html/data.js"></script>
+</body>
+</html>
