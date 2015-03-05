@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%=title%></title>
-    <link rel="stylesheet" href="../../static/bootstrap/3.3.2/bootstrap.min.css">
-    <link rel="stylesheet" href="../../static/nimojs-blog/site.css">
-    <meta name="keywords" content="<%=keywords%>" />
-    <meta name="description" content="<%=description%>" />
+    <title>Nimojs/Blog</title>
+    <link rel="stylesheet" href="static/bootstrap/3.3.2/bootstrap.min.css">
+    <link rel="stylesheet" href="static/nimojs-blog/site.css">
+    <meta name="keywords" content="nimojs,前端开发,javascript,node" />
+    <meta name="description" content="NimoChu的Web前端开发博客" />
 </head>
 <body>
+<link rel="stylesheet" href="static/bootstrap/3.3.2/bootstrap.min.css">
+<link rel="stylesheet" href="static/nimojs-blog/site.css">
 <!-- Header S -->
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
@@ -19,7 +21,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../../index.html">Home</a>
+      <a class="navbar-brand" href="/">Home</a>
     </div>
     <div class="navbar-collapse collapse" role="navigation">
       <ul class="nav navbar-nav navbar-right hidden-sm">
@@ -33,22 +35,9 @@
 </div>
 <!-- Header E -->
 <div class="container">
-<%=content%>
-
-<div id="ghComments" class="ui-comments" 
-    data-issue-id="<%=githubissuesid%>"
-    data-gh-name="nimojs/blog"
->
-  <h3>评论</h3>
-  <div class="alert alert-warning">
-    你可以<a href="https://github.com/nimojs/blog/issues/<%=githubissuesid%>" target="_blank">点击此处</a> 添加评论。
-  </div>
-  <img class="loading" id="ghCommentsLoading" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-64.gif" alt="加载评论中...">
-
+  <hr>
+    找不到该页面，返回首页 <a href="/">Home</a>
+    <hr>
 </div>
-
-</div>
-<script src="../../static/jquery/1.11.1/jquery.min.js"></script>
-<script src="../../static/nimojs-blog/site.js"></script>
 </body>
 </html>

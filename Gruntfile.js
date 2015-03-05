@@ -1,5 +1,15 @@
 module.exports = function(grunt) {
-
+    
+    var fs = require('fs');
+    fs.readdir('./html/posts/', function (err, files) {
+        var aReuslt = [];
+        files.forEach(function (value,index,arr) {
+            if (/\.html$/.test(value)) {
+                aReuslt.push('html/posts/' + value);
+            }
+        })
+        fs.writeFileSync('./html/data.js', 'showlist('+JSON.stringify(aReuslt)+')');
+    })
     grunt.initConfig({
         watch: {
             cndoc: {
