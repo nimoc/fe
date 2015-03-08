@@ -1,5 +1,5 @@
 项目迁移URL解决方案
--------------------------
+-----------------
 <!--_PAGEDATA
 {
     "title": "项目迁移URL解决方案",
@@ -32,7 +32,7 @@ _PAGEDATA-->
 PHP代码修改如下
 ```html
 define("APP_PATH","/");
-您好，请<a href="<php echo APP_PATH ?>login/">登录</a>
+您好，请<a href="<?php echo APP_PATH ?>login/">登录</a>
 ```
 渲染结果:您好，请`<a href="/login/">登录</a>`
 
@@ -42,19 +42,19 @@ define("APP_PATH","/");
 
 ```html
 define("APP_PATH","/blog/");
-您好，请<a href="<php echo APP_PATH ?>login/">登录</a>
+您好，请<a href="<?php echo APP_PATH ?>login/">登录</a>
 ```
 渲染结果:您好，请`<a href="/blog/login/">登录</a>`
 
 **前端注意：**  
 AJAX 路径也需要加上项目路径前缀，防止项目迁移 AJAX 路径错误。参考如下示例：
-```javascript
+```php
 <script>
-var APP_PATH = "<php echo APP_PATH ?>";
+var APP_PATH = "<?php echo APP_PATH ?>";
 </script>
 <script>
 $.get(APP_PATH + 'url/', function () {
-	// ...
+    // ...
 })
 </script>
 ```
