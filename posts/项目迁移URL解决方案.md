@@ -3,7 +3,7 @@
 <!--_PAGEDATA
 {
     "title": "项目迁移URL解决方案",
-    "githubissuesid": 3,
+    "githubissuesid": 11,
     "createData": "2015-03-08",
     "keywords": "Web开发,团队规范,链接失效,项目迁移，项目架构",
     "description":"介绍应对项目迁移的一种解决方案"
@@ -59,4 +59,4 @@ $.get(APP_PATH + 'url/', function () {
 </script>
 ```
 
-访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/3](https://github.com/nimojs/blog/issues/3)
+访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/11](https://github.com/nimojs/blog/issues/11)
