@@ -3,7 +3,7 @@ arguments.callee caller 与 strict mode
 <!--_PAGEDATA
 {
     "title": "arguments.callee caller 与 strict mode",
-    "githubissuesid": 11,
+    "githubissuesid": 12,
     "createData": "2015-03-08",
     "keywords": "arguments,arguments.callee,arguments.caller,use strict,strict",
     "description":"严格模式（use strict）为什么不支持 arguments.callee 和 arguments.caller"
@@ -126,4 +126,4 @@ strict mode 不支持 callee caller
 
 
 
-访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/11](https://github.com/nimojs/blog/issues/11)
+访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/11](https://github.com/nimojs/blog/issues/12)

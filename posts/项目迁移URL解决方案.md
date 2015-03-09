@@ -10,7 +10,7 @@
 }
 _PAGEDATA-->
 
-此文章是 [Rain/doc/前后端开发约定](https://github.com/nimojs/rain/blob/master/doc/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E7%BA%A6%E5%AE%9A.md#%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88) 中 **-项目迁移解决方案-** 独立通用版本。
+此文章是 [Rain/doc/前后端开发约定](https://github.com/nimojs/rain/blob/master/doc/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91%E7%BA%A6%E5%AE%9A.md#%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88) 中 **-项目迁移解决方案-** 独立通用版本。用于避免和解决项目迁移目录时大量的路径修改工作，并提醒新员工别在项目开始时就踩坑。
 
 考虑如下场景：
 ```html
@@ -21,7 +21,7 @@ _PAGEDATA-->
 
 上线后需求方要求将博客迁移至 `http://www.domain.com/blog/` 。
 
-迁移后访问首页，点击登录`(/login/)`。打开 `/login/` 页面后出现404。因为博客的登录页面变成了 `/blog/login/`，而页面中的链接没有修改。
+迁移后访问页面，点击登录`(/login/)`。打开 `/login/` 页面后出现404。因为博客的登录页面变成了 `/blog/login/`，而页面中的链接没有修改。
 
 此时需要将所有页面中的 URL 都加上 `/blog/` 前缀才可以确保所有 URL 正确，`/login/` 改为 `/blog/login/` 等。
 
@@ -46,11 +46,14 @@ define("APP_PATH","/blog/");
 ```
 渲染结果:您好，请`<a href="/blog/login/">登录</a>`
 
-**前端注意：**  
+前端注意 AJAX 路径的配置
+----------------------
 AJAX 路径也需要加上项目路径前缀，防止项目迁移 AJAX 路径错误。参考如下示例：
 ```php
 <script>
 var APP_PATH = "<?php echo APP_PATH ?>";
+// 渲染结果：
+var APP_PATH = "/";
 </script>
 <script>
 $.get(APP_PATH + 'url/', function () {
