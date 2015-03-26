@@ -16,6 +16,7 @@ F2E Blog
 #### 2013-11
 - [深入理解JavaScript-replace](https://github.com/nimojs/blog/issues/2)
 
-订阅我的博客
-
-<iframe height="600" allowTransparency="true" style="width:100%;border:none;overflow:auto;" frameborder="0" src="http://www.mikecrm.com/f.php?t=ILwcsM"></iframe>
+## 关于作者
+- [知乎](http://www.zhihu.com/people/nimoJs)
+- [微博](http://weibo.com/nimojs)
+- 邮箱：nimo.jser[at]gmail.com
