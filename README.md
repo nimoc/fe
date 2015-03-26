@@ -1,4 +1,4 @@
-F2E Blog
+Blog
 ========
 
 [通过邮件订阅此博客](http://www.nimojs.com/blog/subscription.html)  或 [通过Github 订阅此博客](https://github.com/nimojs/blog/issues/15)
