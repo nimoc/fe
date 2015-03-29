@@ -1,7 +1,7 @@
 Blog
 ========
 
-[通过邮件订阅此博客](http://www.nimojs.com/blog/subscription.html)  或 [通过Github 订阅此博客](https://github.com/nimojs/blog/issues/15)
+[通过邮件订阅此博客](http://www.mikecrm.com/f.php?t=ILwcsM)  或 [通过Github 订阅此博客](https://github.com/nimojs/blog/issues/15)
 
 ## Posts
 
