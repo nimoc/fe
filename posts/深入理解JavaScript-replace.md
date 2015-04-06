@@ -130,4 +130,4 @@ console.log(
 
 [点此订阅博客](https://github.com/nimojs/blog/issues/15)
 
-访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/2](https://github.com/nimojs/blog/issues/2)
+若作者显示不是Nimo（被转载了），请访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/2](https://github.com/nimojs/blog/issues/2)

@@ -6,16 +6,19 @@ Blog
 ## Posts
 
 #### 2015-03
-- [项目迁移URL解决方案](https://github.com/nimojs/blog/issues/11)
+- [项目迁移 URL 解决方案](https://github.com/nimojs/blog/issues/11)
 - [前后端数据交互方法](https://github.com/nimojs/blog/issues/13)
-- [使用ruby.taobao.org安装sass](https://github.com/nimojs/blog/issues/14)
+- [使用 ruby.taobao.org 安装 Sass](https://github.com/nimojs/blog/issues/14)
 - [给应届程序员们的一些建议](https://github.com/nimojs/blog/issues/16)
 
 #### 2014-01
-- [JavaScript初学者建议：不要去管浏览器兼容](https://github.com/nimojs/blog/issues/1)
+- [JavaScript 初学者建议：不要去管浏览器兼容](https://github.com/nimojs/blog/issues/1)
+
+#### 2013-12
+- [JavaScript 原型赋值陷阱](https://github.com/nimojs/blog/issues/17)
 
 #### 2013-11
-- [深入理解JavaScript-replace](https://github.com/nimojs/blog/issues/2)
+- [深入理解 JavaScript replace](https://github.com/nimojs/blog/issues/2)
 
 ## 关于作者
 - [知乎](http://www.zhihu.com/people/nimoJs)
