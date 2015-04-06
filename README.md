@@ -9,6 +9,7 @@ Blog
 - [项目迁移URL解决方案](https://github.com/nimojs/blog/issues/11)
 - [前后端数据交互方法](https://github.com/nimojs/blog/issues/13)
 - [使用ruby.taobao.org安装sass](https://github.com/nimojs/blog/issues/14)
+- [给应届程序员们的一些建议](https://github.com/nimojs/blog/issues/16)
 
 #### 2014-01
 - [JavaScript初学者建议：不要去管浏览器兼容](https://github.com/nimojs/blog/issues/1)

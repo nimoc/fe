@@ -128,4 +128,6 @@ console.log(
 
 需要将ThisNimojs-JavaScript使用正则替换成 `TJhaivsaNSicmroijpst`
 
+[点此订阅博客](https://github.com/nimojs/blog/issues/15)
+
 访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/2](https://github.com/nimojs/blog/issues/2)

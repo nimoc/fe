@@ -61,5 +61,6 @@ $.get(APP_PATH + 'url/', function () {
 })
 </script>
 ```
+[点此订阅博客](https://github.com/nimojs/blog/issues/15)
 
 访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/11](https://github.com/nimojs/blog/issues/11)

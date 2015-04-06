@@ -46,5 +46,6 @@ _PAGEDATA-->
 
 以上就是我的一些分享希望若能帮助到初学 JavaScript 的你，如果觉得有误导的地方敬请立即指出。
 
-访问Github原文进行讨论：[JavaScript初学者建议：不要去管浏览器兼容性](https://github.com/nimojs/blog/issues/1)
- 
+[点此订阅博客](https://github.com/nimojs/blog/issues/15)
+
+若作者显示不是Nimo（被转载了），请访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/1](https://github.com/nimojs/blog/issues/1)

@@ -16,7 +16,7 @@ _PAGEDATA-->
 Sass 需使用rubygems 安装，而因为国内网络原因 rubygems 会连接失败，我们可以使用 [ruby.taobao.org](http://ruby.taobao.org/) 提供的镜像安装 Sass。
 
 
-本文是 [Gulp 入门指南：使用 Gulp 编译 Sass](https://github.com/nimojs/gulp-book) 的附属教程
+本文是 [gulp 入门指南：使用 gulp 编译 Sass](https://github.com/nimojs/gulp-book) 的附属教程
 
 **目录:**  
 
@@ -25,6 +25,8 @@ Sass 需使用rubygems 安装，而因为国内网络原因 rubygems 会连接�
 - [切换 gem 源至 taobao 并安装 Sass](#hash_gem2)
 
 
+<a href="#hash_ruby1" name="hash_ruby1"></a>
+
 安装 Ruby
 -----
 
@@ -32,6 +34,8 @@ Sass 需使用rubygems 安装，而因为国内网络原因 rubygems 会连接�
 
 
 **检测 Ruby 安装成功**
+
+> 如果你是 Mac 用户则不需要安装 Ruby。（Mac 自带 ruby）
 
 在 Windows 中可按 徽标键（alt键左边）+ R 打开输入 cmd + 回车打开命令行。
 
@@ -42,6 +46,7 @@ ruby -v
     ruby 2.1.5p273 (2014-11-13 revision 48405) [x64-mingw32]
 ```
 
+<a href="#hash_gem2" name="hash_gem2"></a>
 
 切换 gem 源至 taobao 并安装 Sass
 ------------------
@@ -94,6 +99,8 @@ sass -v
 - [Sass用法指南](http://www.ruanyifeng.com/blog/2012/06/Sass.html)
 - [下载安装ruby](http://rubyinstaller.org/)
 - [taobao ruby 镜像](http://ruby.taobao.org/)
-- [Gulp 入门指南：使用 Gulp 编译 Sass](https://github.com/nimojs/gulp-book)
+- [gulp 入门指南：使用 gulp 编译 Sass](https://github.com/nimojs/gulp-book)
+
+[点此订阅博客](https://github.com/nimojs/blog/issues/15)
 
 若作者显示不是Nimo（被转载了），请访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/14](https://github.com/nimojs/blog/issues/14)
