@@ -5,6 +5,9 @@ Blog
 
 ## Posts
 
+#### 2015-04
+- [《Gulp 入门指南》](https://github.com/nimojs/blog/issues/19)
+
 #### 2015-03
 - [项目迁移 URL 解决方案](https://github.com/nimojs/blog/issues/11)
 - [前后端数据交互方法](https://github.com/nimojs/blog/issues/13)
