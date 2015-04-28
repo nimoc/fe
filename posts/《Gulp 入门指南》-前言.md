@@ -1,4 +1,4 @@
-《Gulp 入门指南》
+《Gulp 入门指南》- 前言
 ===============
 <!--_PAGEDATA
 {
@@ -10,12 +10,21 @@
 }
 _PAGEDATA-->
 
-
 gulp 是基于 node 实现 Web 前端自动化开发的工具，利用它能够极大的提高开发效率。
 
 在 Web 前端开发工作中有很多“重复工作”，比如压缩CSS/JS文件。而这些工作都是有规律的。找到这些规律，并编写 gulp 配置代码,让 gulp 自动执行这些“重复工作”。
 
 > 你可以直接访问 [GitHub: gulp-book](https://github.com/nimojs/gulp-book) 查看本书
+
+## 目录
+
+- [安装 Node 和 gulp](https://github.com/nimojs/gulp-book/blob/master/chapter1.md)
+- [使用 gulp 压缩 JS](https://github.com/nimojs/gulp-book/blob/master/chapter2.md)
+- [使用 gulp 压缩 CSS](https://github.com/nimojs/gulp-book/blob/master/chapter3.md)
+- [使用 gulp 压缩图片](https://github.com/nimojs/gulp-book/blob/master/chapter4.md)
+- [使用 gulp 编译 LESS](https://github.com/nimojs/gulp-book/blob/master/chapter5.md)
+- [使用 gulp 编译 Sass](https://github.com/nimojs/gulp-book/blob/master/chapter6.md)
+- [使用 gulp 构建一个项目](https://github.com/nimojs/gulp-book/blob/master/chapter7.md)
 
 将规律转换为 gulp 代码
 -------------------
