@@ -30,10 +30,10 @@ _PAGEDATA-->
 
 ![](https://raw.githubusercontent.com/nimojs/learn-js/gh-pages/package/dialog/dialog.png)
 
-[接受挑战](https://github.com/nimojs/learn-js/tree/gh-pages/package/Dialog)
+[接受挑战](https://github.com/nimojs/learn-js/tree/gh-pages/package/dialog)
 
 更多挑战将会更新在 [nimojs/learn-js](https://github.com/nimojs/learn-js) 欢迎 [Watch](https://github.com/nimojs/learn-js/subscription) 和 Star 此项目
 
 [点此订阅博客](https://github.com/nimojs/blog/issues/15)
 
-访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/22](https://github.com/nimojs/blog/issues/22)
+若作者显示不是Nimo（被转载了），请访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/22](https://github.com/nimojs/blog/issues/22)
