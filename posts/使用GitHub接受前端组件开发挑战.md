@@ -3,8 +3,8 @@
 <!--_PAGEDATA
 {
     "title": "使用GitHub接受前端组件开发挑战",
-    "githubissuesid": 11,
-    "createData": "2015-03-08",
+    "githubissuesid": 22,
+    "createData": "2015-05-11",
     "keywords": "GitHub,前端组件开发,新手组件教程",
     "description":"这是一个 JavaScript 互助学习的项目。接受组件开发的挑战，提交代码让他人评论你的代码以提高。"
 }
