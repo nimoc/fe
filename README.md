@@ -8,6 +8,7 @@ Blog
 ### 2015-05
 - [使用GitHub接受前端组件开发挑战](https://github.com/nimojs/blog/issues/22)
 - [Paging简单自由的分页生成器](https://github.com/nimojs/blog/issues/23)
+
 ### 2015-04
 - [《Gulp 入门指南》](https://github.com/nimojs/blog/issues/19)
 
