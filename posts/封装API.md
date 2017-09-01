@@ -12,6 +12,7 @@
 例如一个用户的状态分别有 `未激活` `已激活` `禁用`
 
 接口返回的数据可能是
+
 ```js
 // GET /user
 [
@@ -155,4 +156,27 @@ apiNews.post(
         }
     }
 )
+```
+
+#### proxy 和 dict
+
+--------------------------------------
+
+底层: XHR - ES6 fetch - wx.request
+接口封装：jQuery.ajax
+项目通用业务逻辑封装：proxy （网络错误 alert 弹窗，或者将错误发送到服务器端,服务器超过规定时间未响应，则弹出错误）
+具体接口语义化封装： apiLogin(data, settings) settings.pass settings.error  settings.inactive
+
+
+##### dict
+
+```js
+var dict = require('dict')
+dict.addFamily('sms', {
+    'login': 1,
+    'register': 2
+})
+dict('sms', 'login') // 1
+dict('sms', '1') // login
+dict('sms', 1) // login
 ```
