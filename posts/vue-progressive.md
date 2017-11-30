@@ -1,4 +1,4 @@
-# Vue 的渐进式如何拥抱后端
+# Web管理后台解决方案
 
 
 ## 业务场景和需求
@@ -158,10 +158,12 @@ new Select({
         高级选项：
         <!-- v-model 可将组件操作绑定到 new Vue({}) 配置的 data 中 -->
         <i-switch name="options" v-model="options" ></i-switch>
+
         <i-button html-type="submit" >提交</i-button>
+
         <!-- v-if="options" 可以判断 options 为 true 时显示 -->
         <div v-if="options"style="padding-top:10px;" >
-            <i-select name="options_admin" style="width:200px;" >
+            <i-select name="options_admin" v-model="options_admin" style="width:200px;" >
                 <i-option value="a" >
                     张三
                 </i-option>
@@ -169,7 +171,7 @@ new Select({
                     李四
                 </i-option>
             </i-select>
-        </div>
+      </div>
     </form>
 </div>
 <script>
@@ -177,7 +179,8 @@ new Vue({
     el: '#app',
     data: function () {
         return {
-            options: false
+            options: false,
+            options_admin: ''
         }
     }
 })
@@ -209,4 +212,4 @@ new Vue({
 
 有了这些功能后端就能更快速的搭建管理后台。
 
-> 因为我们团队2年前就在开始做 data-api 式的后台框架，这些功能都是使用频繁且能提高页面开发效率的。
+> 因为我们团队2年前就在开始做 data-api 式的后台框架，这些功能是使用频繁且能提高页面开发效率。
