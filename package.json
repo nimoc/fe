@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "dev": "fis3 server start && fis3 release -w"
+    },
+  "dependencies": {
+    "markrun": "^0.23.0"
+  }
+}
