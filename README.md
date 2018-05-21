@@ -22,8 +22,12 @@ Blog
 
 - [客户端 Paging 分页解决方案](https://github.com/onface/blog/issues/23)
 
+## 接口设计
+
+- ~[Promise 提供生命周期控制](#)~
 
 ## 关于作者
 - [知乎](http://www.zhihu.com/people/onface)
 - [微博](http://weibo.com/onface)
 - 邮箱：nimo.jser[at]gmail.com
+
