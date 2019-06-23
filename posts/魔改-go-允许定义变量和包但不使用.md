@@ -1,4 +1,4 @@
-# golang 去掉未使用变量报错
+# 魔改 go 允许定义变量和包但不使用
 
 
 ![](https://user-images.githubusercontent.com/3949015/59939027-3872f880-9489-11e9-82cd-ec4e9b8e1b7e.jpeg)

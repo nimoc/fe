@@ -5,7 +5,7 @@ Blog
 
 ## Posts
 
-### 系统教程
+### 前端系统教程
 
 - [前后端数据交互方法](https://github.com/onface/blog/issues/13)
 - [Web前端写给Web设计师的注意事项](https://github.com/onface/blog/issues/26)
@@ -18,16 +18,16 @@ Blog
 - [JavaScript 原型赋值陷阱](https://github.com/onface/blog/issues/17)
 - [JavaScript 初学者建议：不要去管浏览器兼容](https://github.com/onface/blog/issues/1)
 
+## Golang
+
+- [魔改 go 允许定义变量和包但不使用](https://github.com/onface/blog/issues/32)
+
 ### 解决方案
 
 - [客户端 Paging 分页解决方案](https://github.com/onface/blog/issues/23)
 
-## 接口设计
-
-- ~[Promise 提供生命周期控制](#)~
 
 ## 关于作者
-- [知乎](http://www.zhihu.com/people/onface)
-- [微博](http://weibo.com/onface)
+- [知乎](http://www.zhihu.com/people/nimojs)
+- [微博](http://weibo.com/nimojs)
 - 邮箱：nimo.jser[at]gmail.com
-
