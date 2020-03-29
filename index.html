@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="./static/themes_vue.css">
 
     <style>
+        .cover {
+            background: linear-gradient(rgba(255,255,255, 0.4), rgba(255,255,255, 0.4)), url('https://i.picsum.photos/id/849/1080/768.jpg') no-repeat 0% 20%/ cover !important;
+
+            background-size: 100% auto !important;
+        }
+        </style>
+    <style>
         html .app-nav {
             position:fixed;
             top:1em;
@@ -21,7 +28,9 @@
         loadNavbar: true,
         repo: 'nimoc/blog',
         executeScript: true,
-        coverpage: true,
+        coverpage: {
+            '/': 'cover.html',
+        }
     }
 </script>
 <script>
