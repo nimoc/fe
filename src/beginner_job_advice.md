@@ -1,23 +1,14 @@
-给应届IT从业者的一些建议
-====================
-<!--_PAGEDATA
-{
-    "title": "给应届IT从业者的一些建议",
-    "githubissuesid": 16,
-    "createData": "2015-03-28",
-    "keywords": "应届IT毕业生,应届毕业生,应届程序员,程序员面试技巧",
-    "description":"分享一些应届程序员应该注意的一些面试技巧和职业规划"
-}
-_PAGEDATA-->
+# 给应届IT从业者的一些建议
+
+[![blog.nimoc.io](http://blog.nimoc.io/notice/index.svg)](http://blog.nimoc.io/notice/index.html)
 
 我是一名 Web 前端开发程序员。在此处分享一些经验和建议给应届的IT从业者，希望能帮助你们在职业生涯中有一个好的开始（这很重要）。
 
 > 本文源自 [“聚才有道”创业招聘会](http://weibo.com/p/1001603824650017720092) 的一次现场分享。
-
+> 
 > 不得不赞一下朝廷能够提供这样有意思的与创业者面对面交流的招聘会。
 
 **目录:**  
-
 1. [请明确你的职位](#hash_position1)
 2. [克服紧张](#hash_relax2)
 3. [关于加班](#hash_overtime3)
@@ -25,11 +16,12 @@ _PAGEDATA-->
 
 <a title="请明确你的职位" name="hash_position1"></a>
 ## 请明确你的职位
+
 有一次面试让我印象深刻。他是一名应届毕业生，来**面试 Web 前端开发**(JavaScript)。
 
 简单的了解他的技能后对话如下：
 
----------
+---
 
 求职者：你们还招 PHP 后端开发吗？
 
@@ -43,14 +35,13 @@ _PAGEDATA-->
 
 面试官：我们建议新员工专注于一件事。基本情况我都已经了解了，如果有需要我们会电话联系你的。
 
-------
+---
 
 相信你已经明白这位求职者已经被拒绝了。如果是企业中意你，会继续介绍一下公司的情况和询问面试者有什么想了解的。
 
 **被拒绝的原因就是面试者不明确自己想做什么。** 当你都不清楚自己想要做什么的时，企业需要承担你随时离职或要求换岗的风险。
 
 因为未来的某一天你可能想清楚自己要做什么了，而现在所做的事并不是你想要的。你有3个选择：
-
 1. 本公司内要求换岗
 2. 换一家公司选择合适的岗位
 3. 继续在这家公司，但不积极工作。（因为你不喜欢你的岗位）
@@ -68,7 +59,6 @@ _PAGEDATA-->
 技术人员就应该踏踏实实的做好技术，为企业创造价值。管理是一件水到渠成的事。
 
 <a title="克服紧张" name="hash_relax2"></a>
-
 ## 克服紧张
 
 有些求职者会表现的很羞涩、说话声音很低、因为紧张表现的很别扭。
@@ -78,11 +68,8 @@ _PAGEDATA-->
 可以试着改变坐姿或说上一句：不好意思有点紧张。（亲测有效）  
 当你有一次进入状态后你就彻底的克服了这这紧张。
 
-
 <a title="关于加班" name="hash_overtime3"></a>
-
 ## 关于加班
-
 - 问：你怎么看待加班？
 - 答：我不在乎加班，主要能学到东西就行。
 
@@ -94,15 +81,20 @@ _PAGEDATA-->
 
 你可以这样说：“偶尔加班可以接受，加班量大一点希望有加班工资。加班严重占用到私人时间不能接受，因为我需要利用私人时间提高技能（学习）”
 
-
 <a title="总结" name="hash_summarize4"></a>
-
 ## 总结：
 - 面对企业的时候一定要明确自己的职位。
 - 克服自己的紧张，这样才能更好的展示自己。
 - 要自信，不要选择加班严重的公司。
 
+[点此订阅博客](https://github.com/nimoc/blog/issues/15)
 
-[点此订阅博客](https://github.com/nimojs/blog/issues/15)
+若作者显示不是Nimo（被转载了），请访问Github原文进行讨论：[https://github.com/nimoc/blog/issues/16](https://github.com/nimoc/blog/issues/16)
 
-若作者显示不是Nimo（被转载了），请访问Github原文进行讨论：[https://github.com/nimojs/blog/issues/16](https://github.com/nimojs/blog/issues/16)
+<script src="https://utteranc.es/client.js"
+        repo="nimoc/blog"
+        issue-number="16"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>

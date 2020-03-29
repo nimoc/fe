@@ -1,33 +1,36 @@
-Blog
-========
+# NimoChu
 
-[通过Github 订阅此博客](https://github.com/onface/blog/issues/15)
+## JavaScript
 
-## Posts
+- [深入理解JavaScript-replace](src/js_replace.md) `2015`
+- [JavaScript 原型赋值陷阱](src/js_prototype_trap.md) `2015`
 
-### 前端系统教程
+## TypeScript
 
-- [前后端数据交互方法](https://github.com/onface/blog/issues/13)
-- [Web前端写给Web设计师的注意事项](https://github.com/onface/blog/issues/26)
-- [使用GitHub接受前端组件开发挑战](https://github.com/onface/blog/issues/22)
-- [给应届程序员们的一些建议](https://github.com/onface/blog/issues/16)
+- [利用空值设计让 TypeScript 更稳定和易于维护](posts/code/zero_value_typescript.md) `2020`
 
-### JavaScript
+## web前端工程化
 
-- [深入理解 JavaScript replace](https://github.com/onface/blog/issues/2)
-- [JavaScript 原型赋值陷阱](https://github.com/onface/blog/issues/17)
-- [JavaScript 初学者建议：不要去管浏览器兼容](https://github.com/onface/blog/issues/1)
+- [gulp入门指南](src/gulp_book.md) `2015`
 
-## Golang
+## 职业思考建议
 
-- [魔改 go 允许定义变量和包但不使用](https://github.com/onface/blog/issues/32)
+- [JavaScript初学者建议：不要去管浏览器兼容](src/ignore_browser_compatibility.md) `2015`
+- [给应届IT从业者的一些建议](src/beginner_job_advice.md) `2015`
 
-### 解决方案
+## 客户端技术
 
-- [客户端 Paging 分页解决方案](https://github.com/onface/blog/issues/23)
-
+- [Web前端写给Web设计师的注意事项](src/web_design_notes.md) `2016`
 
 ## 关于作者
-- [知乎](http://www.zhihu.com/people/nimojs)
-- [微博](http://weibo.com/nimojs)
-- 邮箱：nimo.jser[at]gmail.com
+- [知乎](http://www.zhihu.com/people/nimoc)
+
+
+[通过Github 订阅此博客](src/watch.md)
+
+
+## 一些过时了的文章
+
+- [使用GitHub接受前端组件开发挑战](src/learn_js.md) `2015`
+- [前后端数据交互方法](src/web_team_interface.md) `2015`
+- [微信小程序广告对接指导手册](src/weapp_ad_jump.md) `2016`

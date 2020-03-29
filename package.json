@@ -1,7 +1,14 @@
 {
     "scripts": {
-        "dev": "fis3 server start && fis3 release -w"
+        "dev": "fis3 release -w -d posts",
+        "doc" : "fis3 release -d posts"
     },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.6.2"
+  },
   "dependencies": {
     "markrun": "^0.23.0"
   }
