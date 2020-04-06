@@ -4,6 +4,7 @@
 
 **2020**
 
+- `TS` [将 TypeScript 中 松散的类型当做药品](posts/code/ts_go_generics.doc.md) 2020-04
 - `TS` [利用空值设计让 TypeScript 更稳定和易于维护](posts/code/zero_value_typescript.md) 2020-03
 
 **2016**
