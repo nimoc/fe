@@ -30,14 +30,14 @@ function jsFilterZeroValue(list) {
         switch (typeof item) {
             case "string":
                 return item != ""
-    break
-case "number":
-    return item != 0
-    break
-default:
-    throw new Error("filterZeroValue: list[] item must be string or number" )
-}
-})
+            break
+            case "number":
+                return item != 0
+                break
+            default:
+            throw new Error("filterZeroValue: list[] item must be string or number" )
+        }
+    })
 }
 
 test("jsFilterZeroValue", function () {
