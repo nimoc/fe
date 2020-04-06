@@ -203,7 +203,9 @@ test("updateSQL", function (){
 })
 
 
-;`
+```
+
+
 上面的例子不够完美,本文想表达的主要的观点是:
 
 **控制参数数量和类型不可变**
@@ -237,5 +239,5 @@ crossorigin="anonymous"
 async>
 </script>
 
-    `;
+```ts;
 ```

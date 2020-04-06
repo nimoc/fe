@@ -163,7 +163,7 @@ test("stringAndNumberlistFilterZeroValue", function () {
 
 最重要的是有些情况下使用了泛型或联合类型加上编码时疏忽了会造成想不到的bug:
  
-`
+`;
 
 function updateSQL(id: string, names: string[]) :{sql:string, values:any[]} {
     const updateValue = stringListFilterZeroValue(names)
@@ -198,6 +198,7 @@ test("updateSQL", function (){
 
 
 ;`
+
 上面的例子不够完美,本文想表达的主要的观点是:
 
 **控制参数数量和类型不可变**
@@ -231,4 +232,4 @@ crossorigin="anonymous"
 async>
 </script>
 
-    `;
+`;
