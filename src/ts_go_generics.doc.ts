@@ -49,12 +49,14 @@ test("jsFilterZeroValue", function () {
 你甚至可以3行代码搞定
 
 ^^^js
-func jsFilterZeroValue() {
+function jsFilterZeroValue() {
     return list.filter((item)=> {return !!item})
 }
 ^^^
 
-不这么做是因为:遇到string number 之外的的类型进行提示,和减少隐式类型转换.
+
+不这么做是因为需要在参数是 string number 之外的的类型时进行错误提示,和减少隐式类型转换.
+
 
 ## TypeScript 实现泛型
 
