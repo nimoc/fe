@@ -5,3 +5,5 @@ Gruntfile.js
 ./html
 ./CNAME
 ./static
+.idea
+src/go_interface_basic/file_go_interface_basic.txt
