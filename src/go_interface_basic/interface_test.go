@@ -1,10 +1,13 @@
 package blog_go_interface_basic
 
 import (
+	f "github.com/og/gofree"
 	gconv "github.com/og/x/conv"
 	ge "github.com/og/x/error"
 	"log"
 	"os"
+	"reflect"
+	"strings"
 	"testing"
 )
 func TestInterface (t *testing.T){
@@ -40,6 +43,15 @@ func TestInterface (t *testing.T){
 		log.Print("createNumbersUseInterface memory", memoryNumbers)
 	}
 	log.Print(`注意思考: 为什么函数定义了接口,在调用函数的时候必须传递的是指针 &fileNumbers `)
+	//  interface 和反射结合实现 QueryBuilder 部分功能
+	{
+		user := User{Name:"nimoc"}
+		insertSQL, values := InsertSQL(&user)
+		// INSERT INTO user (id, name) VALUES (?, ?)
+		log.Print("insertSQL: ", insertSQL)
+		// []interface{}{"81b381a-304d-48bf-bcaf-b7ff8ac525ab", "nimoc"}
+		log.Print("values: ", values)
+	}
 }
 
 // 直接返回所有数字
@@ -100,4 +112,45 @@ func (m *FileNumbers) Reader(data []int){
 	}
 	file, err := os.OpenFile(m.Name, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666) ; ge.Check(err)
 	_, err = file.Write(byteList) ; ge.Check(err)
+}
+type Model interface {
+	TableName() string
+	BeforeCreate()
+}
+type User struct {
+	ID string `db:"id"`
+	Name string `db:"name"`
+}
+func (User)TableName() string { return "user" }
+func (user *User) BeforeCreate() {
+	if user.ID == "" { user.ID = f.UUID()}
+}
+
+// 仅限作用于演示反射和interface的结合,正式环境可使用 github.com/og/gofree
+func InsertSQL(model Model) (insertSQl string, values []interface{}) {
+	tableName := model.TableName()
+	model.BeforeCreate()
+	modelValuePtr := reflect.ValueOf(model)
+	modelValue := modelValuePtr.Elem()
+	modelType := modelValue.Type()
+	fieldList := []string{}
+	for i:=0;i<modelType.NumField() ;i++  {
+		itemType := modelType.Field(i)
+		itemValue := modelValue.Field(i)
+		sqlFieldName, has:= itemType.Tag.Lookup("db")
+		if !has {continue}
+		fieldList = append(fieldList, sqlFieldName)
+		values = append(values, itemValue.Interface())
+	}
+	valuesPlaceholder := []string{}
+	for i:=0;i< len(values);i++ {
+		valuesPlaceholder = append(valuesPlaceholder, "?")
+	}
+	insertSQl = `INSERT INTO `
+	insertSQl += tableName
+	insertSQl += ` (` + strings.Join(fieldList, ", ") + `)`
+	insertSQl += ` VALUES (`
+	insertSQl += strings.Join(valuesPlaceholder, ", ")
+	insertSQl += `)`
+	return
 }
