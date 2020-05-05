@@ -5,7 +5,10 @@ package blog_go_channel_test
 
 import (
 	"fmt"
+	ge "github.com/og/x/error"
+	"io/ioutil"
 	"log"
+	"os"
 	"testing"
 	"time"
 )
@@ -46,7 +49,7 @@ func TestWriteFile(t *testing.T) {
 	*/
 }
 func WriteFile(data Data) {
-	// 使用 log.Print 模拟写操作
+	err := ioutil.WriteFile(data.FileName, []byte(data.Content), os.ModePerm) ; ge.Check(err)
 	fmt.Println(data.FileName + ": " + data.Content)
 }
 
@@ -154,7 +157,7 @@ func TestChannelWriteFile(t *testing.T) {
 		count++ // 计数器递增
 		go ChannelWriteFile(data, ch)
 	}
-	for  {
+	for {
 		writtenFileName := <- ch
 		fmt.Println("writtenFileName: " + writtenFileName)
 		count-- // 计数器递减

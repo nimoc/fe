@@ -7,3 +7,4 @@ Gruntfile.js
 ./static
 .idea
 src/go_interface_basic/file_go_interface_basic.txt
+src/go_channel/*.txt
