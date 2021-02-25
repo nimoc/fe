@@ -63,7 +63,7 @@ end
 
 ```javascript
 function QuestionByID(id) {
-  cacheKey = "question:" + id 
+  cacheKey = "question:" + id
   cache = Redis("HGETALL", cacheKey, )
   // 判断缓存是否存在
   if (cache == nil) {
@@ -102,6 +102,7 @@ function QuestionByID(id) {
 ```
 
 
+![](./cache_practice/1-2.svg)
 
 ```sequence
 @startuml
@@ -185,4 +186,3 @@ function QuestionByID(id string, retry int) {
 > 还需要注意缓存穿透的问题
 
 接下来考虑当提问数据被修改时如何更新缓存。
-
