@@ -18,11 +18,10 @@
 
 ```javascript
 function QuestionByID(id) {
-	row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1")
-	return {
-		title: row.title,
-		describe: row.describe,
-	}
+  row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1") return {
+    title: row.title,
+    describe: row.describe,
+  }
 }
 ```
 
@@ -41,19 +40,18 @@ function QuestionByID(id) {
 
 ```javascript
 function QuestionByID(id) {
-	cacheKey = "question:" + id
-	cache = Redis("HGETALL", cacheKey,)
+  cacheKey = "question:" + id cache = Redis("HGETALL", cacheKey, )
   // 判断缓存是否存在
- 	if (cache == nil) {
+  if (cache == nil) {
     // 查询数据库
-		row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1")
+    row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1")
     // 将数据库的数据同步到缓存
-		Redis("HSET", cacheKey, "title", row.title, "describe", row.describe)
+    Redis("HSET", cacheKey, "title", row.title, "describe", row.describe)
     // 响应数据
-		return {
-			title: cache.title,
-			describe: cache.describe,
-		}
+    return {
+      title: cache.title,
+      describe: cache.describe,
+    }
   }
   // 响应缓存数据
   return {
@@ -75,42 +73,37 @@ function QuestionByID(id) {
 
 ```javascript
 function QuestionByID(id string, retry int) {
-  // （可暂时跳过这一段 if 代码）为防止意外多次重试出现死循环，增加中断条件 
+  // （可暂时跳过这一段 if 代码）为防止意外多次重试出现死循环，增加中断条件
   if (retry > 2) {
     return {
       type: "fail",
       message: "提问获取失败，请重试。"
     }
   }
-  // 
-  
-	cacheKey = "question:" + id
-	cache = Redis("HGETALL", cacheKey,)
-  
- 	if (cache == nil) {
-    
+  cacheKey = "question:" + id cache = Redis("HGETALL", cacheKey, )
+
+  if (cache == nil) {
     // 互斥锁
-    lockKey = "question_sync_cache:" + id
-    lockSuccess, Unlock = Lock(lockKey, {ExpireSeconds: 3})
-    if (lockSuccess == false) {
+    lockKey = "question_sync_cache:" + id lockSuccess,
+    Unlock = Lock(lockKey, {
+      ExpireSeconds: 3
+    }) if (lockSuccess == false) {
       // 锁被占用时等待1秒
       SleepSeconds(1)
       // 再次调用 QuestionByID 重试查询，因为根据测试结果1秒的时间足够同步缓存完成。
-      return QuestionByID(id, retry+1)
+      return QuestionByID(id, retry + 1)
     }
-    
-		row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1")
-		Redis("HSET", cacheKey, "title", row.title, "describe", row.describe)
-		unlockSuccess = Unlock()
+
+    row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1") Redis("HSET", cacheKey, "title", row.title, "describe", row.describe) unlockSuccess = Unlock()
     // 解锁失败
     if (unlockSuccess == false) {
       // 再次调用 QuestionByID 重试查询
-			return QuestionByID(id, retry+1)
+      return QuestionByID(id, retry + 1)
     }
-		return {
-			title: cache.title,
-			describe: cache.describe,
-		}
+    return {
+      title: cache.title,
+      describe: cache.describe,
+    }
   }
   return {
     title: cache.title,
