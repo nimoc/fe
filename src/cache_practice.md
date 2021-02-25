@@ -33,14 +33,38 @@ function QuestionByID(id) {
 
 ```
 第一个请求：查询缓存 > 缓存不存在 > 查询数据库 > 将数据写入缓存 > 响应数据
-第二个请求：查询缓存 > 缓存存在   > 响应数据
+第二个请求：查询缓存 > 缓存存在 > 响应数据
 ```
+
+```sequence
+@startuml
+autonumber
+title: 缓存流程
+client1->server: QuestionByID(id)
+server->cache: 查询缓存
+...
+alt 缓存存在
+    server->client1: 返回缓存数据
+else 缓存不存在
+    ...
+    server-->database: 查询数据库
+    ...
+    database->server: 返回数据
+    ...
+    server->cache: 更新缓存
+    server->client1: 返回数据
+end
+@enduml
+```
+
+
 
 修改后的伪代码如下：
 
 ```javascript
 function QuestionByID(id) {
-  cacheKey = "question:" + id cache = Redis("HGETALL", cacheKey, )
+  cacheKey = "question:" + id 
+  cache = Redis("HGETALL", cacheKey, )
   // 判断缓存是否存在
   if (cache == nil) {
     // 查询数据库
@@ -68,6 +92,46 @@ function QuestionByID(id) {
 为了解决这种情况，需要使用分布式互斥锁避免出现一个提问出现大量同步缓存操作。
 
 > 分布式互斥锁需要保证上锁和解锁都是原子性，在解锁时不要意外的解锁了其他线程/协程/机器上的锁和处理解锁时锁过期。本文不深入互斥锁。[互斥锁文章](https://github.com/search?q=user%3Animoc+%E4%BA%92%E6%96%A5%E9%94%81)
+
+
+
+```
+第一个请求：查询缓存 > 缓存不存在 > 尝试上锁 > 上锁成功 > 查询数据库 > 将数据写入缓存 > 响应数据
+第一个请求：查询缓存 > 缓存不存在 > 尝试上锁 > 上锁失败 > 延迟1秒后重试查询
+第二个请求：查询缓存 > 缓存存在 > 响应数据
+```
+
+
+
+```sequence
+@startuml
+autonumber
+title: 缓存流程
+client1->server: QuestionByID(id, retry)
+server->server: 判断 retry 次数防止死循环
+server->mutex: 尝试上锁
+alt 上锁成功
+    server->cache: 查询缓存
+    ...
+    alt 缓存存在
+        server->client1: 返回缓存数据
+    else 缓存不存在
+        ...
+        server-->database: 查询数据库
+        ...
+        database->server: 返回数据
+        ...
+        server->cache: 更新缓存
+        server->client1: 返回数据
+    end
+else 上锁失败
+    ...
+    server->server: 延迟一秒后重试 QuestionByID(id, retry)
+end
+@enduml
+```
+
+
 
 修改后的伪代码如下：
 
@@ -118,6 +182,7 @@ function QuestionByID(id string, retry int) {
 
 至此同步缓存的代码写完了。
 
+> 还需要注意缓存穿透的问题
+
 接下来考虑当提问数据被修改时如何更新缓存。
 
-...
