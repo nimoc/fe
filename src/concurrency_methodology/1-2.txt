@@ -1,0 +1,13 @@
+@startuml
+title: 使用SET EX NX 解决原子性问题\ngithub.com/nimoc/blog/issues/36
+autonumber
+participant server
+database redis
+
+server->redis: SET lock_key 1 EX 10 NX
+note left#lightGreen: 符合原子性
+alt redis return 0
+    redis->o server: 锁被占用
+end
+redis->o server: 上锁成功
+@enduml

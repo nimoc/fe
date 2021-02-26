@@ -1,0 +1,27 @@
+@startuml
+title: 解锁操作延迟问题\ngithub.com/nimoc/blog/issues/36
+autonumber
+participant thread1 #lightBlue
+database redis
+participant thread2 #lightCyan
+
+thread1 -> thread1: 记录当前时间 t1 = now()
+thread1 -> redis: SET lock_key 1 EX 10 NX
+redis -> thread1: 上锁成功
+...
+thread1 -> thread1: 执行一些业务逻辑花了10秒
+redis -> redis: 10秒时候redis自动删除了 lock_key
+...
+alt 超时判断 now() - 10s > t1
+thread1 ->o thread1: 解锁失败
+end
+thread1 -> redis: 发送请求 DEL lock_key
+thread2 -> redis: SET lock key 1 EX 0 NX
+redis -> thread2: 上锁成功
+...
+redis -> thread1: redis return 1 删除了1个 key
+alt redis return 0
+    thread1 ->o thread1: 解锁失败
+end
+note left#pink: 操作延迟：由于 DEL lock_key 发生操作延迟\n删除的是 thread2 上的锁
+@enduml

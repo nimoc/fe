@@ -1,0 +1,14 @@
+@startuml
+title: SETNX EXPIRE 的原子性问题\ngithub.com/nimoc/blog/issues/36
+autonumber
+participant server
+database redis
+
+server->redis: SETNX lock_key 1
+alt redis return 0
+    redis->o server: 锁被占用
+end
+server->redis: EXPRIE lock_key 10
+note right#pink: 不是原子性：\n如果执行EXPRIE之前程序中断\n或执行失败会导致锁永远被占用无法解锁
+redis->o server: 上锁成功
+@enduml
