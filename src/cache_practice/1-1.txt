@@ -1,0 +1,18 @@
+@startuml
+autonumber
+title: 缓存流程
+client1->server: QuestionByID(id)
+...
+server->cache: 查询缓存
+alt 缓存存在
+    server->client1: 返回缓存数据
+else 缓存不存在
+    ...
+    server-->database: 查询数据库
+    ...
+    database->server: 返回数据
+    ...
+    server->cache: 更新缓存
+    server->client1: 返回数据
+end
+@enduml

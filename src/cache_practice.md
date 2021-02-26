@@ -7,9 +7,6 @@
 3. 缓存与数据库的一致性
 
 
-
-
-
 ## 读多写少
 
 例如我们在开发提问系统，提问访问量非常大，每秒一万次访问。
@@ -36,26 +33,7 @@ function QuestionByID(id) {
 第二个请求：查询缓存 > 缓存存在 > 响应数据
 ```
 
-```sequence
-@startuml
-autonumber
-title: 缓存流程
-client1->server: QuestionByID(id)
-server->cache: 查询缓存
-...
-alt 缓存存在
-    server->client1: 返回缓存数据
-else 缓存不存在
-    ...
-    server-->database: 查询数据库
-    ...
-    database->server: 返回数据
-    ...
-    server->cache: 更新缓存
-    server->client1: 返回数据
-end
-@enduml
-```
+![](./cache_practice/1-2.png)
 
 
 
@@ -102,35 +80,7 @@ function QuestionByID(id) {
 ```
 
 
-![](./cache_practice/1-2.svg)
-
-```sequence
-@startuml
-autonumber
-title: 缓存流程
-client1->server: QuestionByID(id, retry)
-server->server: 判断 retry 次数防止死循环
-server->cache: 查询缓存
-...
-alt 缓存存在
-  server->client1: 返回缓存数据
-else 缓存不存在
-  server->mutex: 尝试上锁
-  alt 上锁成功
-    server-->database: 查询数据库
-    ...
-    database->server: 返回数据
-    ...
-    server->cache: 更新缓存
-    server->client1: 返回数据
-  else 上锁失败
-      ...
-      server->server: 延迟一秒后重试 QuestionByID(id, retry)
-  end
-end
-@enduml
-```
-
+![](./cache_practice/1-2.png)
 
 
 修改后的伪代码如下：
