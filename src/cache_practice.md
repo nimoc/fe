@@ -110,24 +110,23 @@ autonumber
 title: 缓存流程
 client1->server: QuestionByID(id, retry)
 server->server: 判断 retry 次数防止死循环
-server->mutex: 尝试上锁
-alt 上锁成功
-    server->cache: 查询缓存
+server->cache: 查询缓存
+...
+alt 缓存存在
+  server->client1: 返回缓存数据
+else 缓存不存在
+  server->mutex: 尝试上锁
+  alt 上锁成功
+    server-->database: 查询数据库
     ...
-    alt 缓存存在
-        server->client1: 返回缓存数据
-    else 缓存不存在
-        ...
-        server-->database: 查询数据库
-        ...
-        database->server: 返回数据
-        ...
-        server->cache: 更新缓存
-        server->client1: 返回数据
-    end
-else 上锁失败
+    database->server: 返回数据
     ...
-    server->server: 延迟一秒后重试 QuestionByID(id, retry)
+    server->cache: 更新缓存
+    server->client1: 返回数据
+  else 上锁失败
+      ...
+      server->server: 延迟一秒后重试 QuestionByID(id, retry)
+  end
 end
 @enduml
 ```
