@@ -14,7 +14,7 @@ note right#eee: 此时 thread1 业务逻辑执行时间决定了 thread2 上锁�
 alt thread2 上锁成功
     redis -> thread2: lock_key == password_2
 end
-alt thread2 上锁成功
+alt thread2 上锁失败
     redis -> thread2: lock_key == password_1
 end
 ...
