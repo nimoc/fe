@@ -22,7 +22,7 @@ thread1 -> redis: 验证lock_key并删除
 note left#lightGreen: 使用 lua 脚本保障 get del 的原子性 \n if redis.call("get", lock_key) == password_1 \nthen \n  return redis.call("del", lock_key) \nelse \n  return 0 \n end
 ...
 redis->redis:
-note right#eee: 此时如果有其他线程上锁会导致 lock_key = thread3Password
+note right#eee: 此时如果有其他线程上锁成功会导致 lock_key = thread3Password
 ...
 alt 删除了1个 key
 thread1 ->o thread1: 解锁成功
