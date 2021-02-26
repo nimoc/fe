@@ -1,0 +1,24 @@
+@startuml
+title: 数据不一致：在数据库事务中更新缓存依然无法保证原子性（事务提交失败）
+autonumber
+actor updateRequest
+control server
+database cache #pink
+database database #purple
+updateRequest->server: 发起修改数据请求
+server->database: 开启事务：begin
+activate database
+server->database: 事务中更新数据库成功
+server->cache: 更新缓存
+alt 更新缓存失败
+  database->server: 结束事务: rollback
+  server->updateRequest: 返回更新失败
+end
+database->server: 结束事务: commit
+alt 结束事务 commit 失败
+  server->o updateRequest: 返回更新失败
+  note right: 数据不一致：此时缓存是新数据，而**数据库是旧数据**。
+end
+server->o updateRequest: 返回更新成功
+deactivate database
+@enduml
