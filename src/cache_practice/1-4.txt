@@ -1,4 +1,5 @@
 @startuml
+title: 防止缓存穿透
 start
 #pink:用户请求;
 #pink:查询缓存;
@@ -6,7 +7,7 @@ if (缓存命中) then (yes)
   :响应缓存数据;
   stop
 else (no)
-  #yellow:在缓存中查询数据是否存在;
+  #yellow:在缓存中查询id是否有效;
   #pink:查询数据库;
   #pink:要查询的数据不在数据库中;
   #yellow:在缓存中标记数据不存在并设置过期时间;

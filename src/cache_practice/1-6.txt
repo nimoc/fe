@@ -1,0 +1,17 @@
+@startuml
+title: 数据不一致：先改数据库再更新缓存
+autonumber
+actor updateRequest
+control server
+database cache #pink
+database database #purple
+updateRequest->server: 发起修改数据请求
+server->database: 更新数据库：UPDATE table SET title=?,describe=? WHERE id = ?
+note left: 此时数据库更新失败则不会执行后续的缓存更新操作\n不会导致数据不一致。
+server->cache: 更新缓存：HSET cacheKey title ? describe ?
+alt 缓存更新失败:
+  server->o updateRequest: 返回更新失败
+  note right: 数据不一致：此时数据库是新数据，而**缓存是旧数据**。
+end
+server->o updateRequest: 返回更新成功
+@enduml

@@ -9,6 +9,9 @@
 
 ## 读多写少
 
+
+### 不使用缓存
+
 例如我们在开发提问系统，提问访问量非常大，每秒一万次访问。
 
 最开始的伪代码如下：
@@ -30,6 +33,8 @@ function QuestionByID(id) {
 ```
 
 上线后发现数据库压力过大，服务延迟非常高，
+
+## 使用缓存
 
 为了解决次问题，使用缓存减少频繁的 sql 操作。
 
@@ -78,6 +83,8 @@ function QuestionByID(id) {
 
 
 > redis hash 的 feild 无法设置过期时间，可以通过定时任务使用 hscan 去检测 cache_expire_uinx_seconds 来实现 field 过期时间
+
+### 缓存击穿
 
 重新发布后，数据库压力大幅度减少。但部分新问题发布后还是会出现几秒短暂的sql连接数暴增。
 
@@ -154,10 +161,11 @@ function QuestionByID(id string, retry int) {
 
 在一种极端情况下：有出现大量的请求，成功上锁的那一个请求在上锁后因为各种原因线程中断了，导致没有解锁。此时会出现3秒内所有 QuestionByID 都不能响应数据。但这种情况出现的几率非常小，可根据业务场景来判断是否可以忽略。
 
+### 缓存穿透
 
 发布运行一段时间后一切正常，偶尔有一天发现当粉丝量很大的用户发布提问后又理解删除提问。发布提问时候推送消息已经推送到很多用户的手机中，用户阅读消息并点击访问提问。会进入如下流程：
 
-![](./cache_practice/1-3.png?=2)
+![](./cache_practice/1-3.png?=3)
 
 如图所示，所有的用户请求都进入了红色框线路。即使在同步缓存时使用互斥锁去减少数据库压力。在第一个上锁成功的用户没查到数据并解锁后还会有新的用户上锁>查询数据库->响应无数据。这就导致了**缓存穿透**
 
@@ -166,6 +174,8 @@ function QuestionByID(id string, retry int) {
 为了解决缓存穿透，需要在查询到不存在的数据时在缓存中标记数据不存在，以避免缓存穿透。
 
 ![](./cache_practice/1-4.png)
+
+![](./cache_practice/1-5.png)
 
 ```js
 function QuestionByID(id string, retry int) {
@@ -221,3 +231,13 @@ function QuestionByID(id string, retry int) {
   }
 }
 ```
+
+当数据量非常大时 hash 存储无效id会导致缓存数据过大，可以使用[布隆过滤器](https://www.dogedoge.com/results?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8) 降低缓存大小。可以根据实际情况选择合适的方式。
+
+### 刷新缓存
+
+当提问数据修改或者删除时需要刷新缓存，若刷新缓存的方式是直接设置值则会在极端情况下出现缓存与数据不一致的问题。
+
+![](./cache_practice/1-6.png)
+![](./cache_practice/1-7.png)
+![](./cache_practice/1-8.png)

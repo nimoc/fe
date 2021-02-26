@@ -1,26 +1,22 @@
 @startuml
+title: 缓存流程
 autonumber
 actor client1
 control server
 database cache #pink
 database database #purple
-title: 缓存流程
 client1->server: QuestionByID(id)
 ...
 server->cache: 查询缓存
-alt 缓存存在
-    server->client1: 返回缓存数据
-else 缓存不存在
+alt 缓存不存在
     ...
     server-->database: 查询数据库
     alt 数据不存在
-      server->client1: 返回数据存在的提示
-    else 数据存在
-      ...
-      database->server: 返回数据
-      ...
-      server->cache: 更新缓存
-      server->client1: 返回数据
+      server->o client1: 返回数据不存在的提示
     end
+    ...
+    server->cache: 更新缓存
+    server->client1: 返回数据
 end
+server->o client1: 返回缓存数据
 @enduml
