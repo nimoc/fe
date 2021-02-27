@@ -2,7 +2,8 @@
 title: 利用空值设计让 TypeScript 更稳定和易于维护
 date: 2020-03-01
 keywords: typescript空值,typescript规范,typescript技巧
-description: 通过空值设计可以消除代码中的 undefined , 提高开发效率,增加项目稳定性
+description: 使用 ts 要带入静态类型的思维,虽然会写出很多在js角度看起来很麻烦的类型代码,但是这些代码会让你的项目稳定性更高.
+而空值设计可以让编写 ts 更加轻松稳定.
 tags:
 - 前端
 - TypeScript
