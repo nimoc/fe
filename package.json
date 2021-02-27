@@ -1,15 +1,31 @@
 {
-    "scripts": {
-        "dev": "fis3 release -w -d posts",
-        "doc" : "fis3 release -d posts"
-    },
+  "scripts": {
+    "preview": "docsify start .",
+    "deploy": "now -p",
+    "dev": "fis3 release -w -d ./",
+    "doc": "fis3 release -d ./"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "docsify-cli": "^4.4.2",
     "jest": "^24.9.0",
+    "now": "^21.0.1",
     "ts-jest": "^24.0.2",
     "typescript": "^3.6.2"
   },
   "dependencies": {
     "markrun": "^0.23.0"
+ },
+"files": [
+    "docs"
+  ],
+  "docsify": {
+    "config": {
+      "basePath": "https://nimoc.io/",
+      "loadSidebar": true,
+      "loadNavbar": true,
+      "coverpage": true,
+      "name": "nimoc.io"
+    }
   }
 }

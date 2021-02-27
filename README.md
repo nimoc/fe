@@ -2,15 +2,20 @@
 
 ## 文章列表
 
+**2021**
+
+- `后端技术` [缓存实践](src/cache_practice.md)
+- `后端技术` [并发方法论](src/concurrency_methodology.md)
+
 **2020**
 
 - `职业思考建议` [Web 前端的困局与突破 ](src/f2e_up.md)
-- `TS` [将 TypeScript 中 松散的类型当做药品](posts/src/ts_go_generics.md) 2020-04
-- `TS` [利用空值设计让 TypeScript 更稳定和易于维护](posts/src/zero_value_typescript.md) 2020-03
+- `TS` [将 TypeScript 中 松散的类型当做药品](src/ts_go_generics.md)
+- `TS` [利用空值设计让 TypeScript 更稳定和易于维护](src/zero_value_typescript.md) 2020-03
 
 **2016**
 
-- `前端工程` [Web前端写给Web设计师的注意事项](src/web_design_notes.md) 2016
+- `前端工程` [Web前端写给Web设计师的注意事项](src/web_design_notes.md)
 
 **2015**
 

@@ -34,31 +34,16 @@ function tsdoc (content) {
     return md
 }
 
-var ignore = [
-    "**",
-    "posts/**",
-    "compile/**",
-    "docs/**",
-    "jest.config.js",
-    "package.json",
-    "**.md",
-    "tsconfig.json",
-    "yarn.lock",
-    "**.js"
-]
-ignore.forEach(function (glob) {
-    fis.match(glob, {
-        release: false
-    })
-})
-
-fis.match('(**/**).doc.ts', {
+fis.match("**", {
+    release: false,
+},1)
+fis.match('(**).doc.ts', {
     parser: [
         function (content, file) {
             return tsdoc(content)
         }
     ],
-    release: "$1",
+    release: "/$1.md",
     isHtmlLike: true,
     rExt: "md",
 }, 999)
