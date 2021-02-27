@@ -4,6 +4,7 @@ date: 2021-02-27
 tags:
 - 后端
 - 并发
+issues: 42
 ----
 
 # 解决并发方法论
@@ -45,3 +46,5 @@ tags:
 
 
 TODO:解锁失败后锁回滚，心跳续命锁，etcd分布式锁
+
+原文地址 https://github.com/nimoc/blog/issues/42 (原文持续更新)
