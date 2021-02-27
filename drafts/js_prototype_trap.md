@@ -114,11 +114,3 @@ oDemo.alert('我是demo!'); //alert过3次
 [点此订阅博客](https://github.com/nimoc/blog/issues/15)
 
 若作者显示不是Nimo（被转载了），请访问Github原文进行讨论：[https://github.com/nimoc/blog/issues/17](https://github.com/nimoc/blog/issues/17)
-
-<script src="https://utteranc.es/client.js"
-        repo="nimoc/blog"
-        issue-number="17"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script>
