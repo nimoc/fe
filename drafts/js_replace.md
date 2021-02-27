@@ -1,6 +1,6 @@
 # 深入理解JavaScript-replace
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 replace方法是属于String对象的，可用于替换字符串。
 ## 简单介绍:

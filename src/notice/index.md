@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>nimoc.io</title>
-</head>
-<body>
 <a href="https://nimoc.io" style="display:block;text-align: center;padding-top:25%;color:#2C8AEE;font-size:4em;font-family:'Palatino Linotype', 'Book Antiqua', Palatino, serif;text-decoration:none;"  >nimoc.io</a>
 <script>
 location.href = 'https://nimoc.io'
 </script>
-</body>
-</html>

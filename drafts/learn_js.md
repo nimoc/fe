@@ -1,6 +1,6 @@
 # 使用GitHub接受前端组件开发挑战
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 
 **[learn-js](https://github.com/nimoc/learn-js)** 是一个**适合前端新手**的 JavaScript 互助学习的项目。接受组件开发的挑战，提交代码让他人评论你的代码以提高。

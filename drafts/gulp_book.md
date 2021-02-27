@@ -1,6 +1,6 @@
 # 《Gulp 入门指南》- 前言
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 <!--_PAGEDATA
 {

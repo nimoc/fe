@@ -1,5 +1,5 @@
 # JavaScript原型赋值陷阱
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 不通过对象的 `constructor.prototype` 对原型中的属性进行递增时候会触发原型赋值陷阱。
 

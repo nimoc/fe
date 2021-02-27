@@ -1,7 +1,7 @@
 ;`
 # 利用空值设计让 TypeScript 更稳定和易于维护
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 > 本文代码有大量的 test 和  expect 函数,目的是替代注释,用 expect 说明变量和函数的返回值
 

@@ -1,6 +1,6 @@
 ## 微信小程序广告对接指导手册
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 友情链接: [fucking-weapp](https://github.com/onface/fucking-weapp)
 

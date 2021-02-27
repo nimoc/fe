@@ -2,7 +2,7 @@
 # 将 TypeScript 中 松散的类型当做药品
 
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 > 本文代码有大量的 test 和  expect 函数,目的是替代注释,用 expect 说明变量和函数的返回值
 

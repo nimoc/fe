@@ -12,7 +12,7 @@ issues:35
 
 # Web 前端的困局与突破
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 > 每个Web前端都会不时思考自身对于团队的价值和在团队中的话语权,这类思考背后存在困局和突破
 

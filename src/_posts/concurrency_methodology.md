@@ -8,7 +8,7 @@ tags:
 
 # 解决并发方法论
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
 首先记住以下几点
 
