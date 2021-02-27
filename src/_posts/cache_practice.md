@@ -2,6 +2,7 @@
 title: 缓存实践
 date: 2021-02-27
 tags: 后端
+issues: 41
 ----
 
 # 缓存实践
@@ -74,7 +75,12 @@ function QuestionByID(id) {
       }
     }
     // 将数据库的数据同步到缓存
-    Redis("HSET", cacheKey, "title", row.title, "describe", row.describe, "cache_expire_uinx_seconds", time.Now().Add(time.Secound*120).Unix()) row.describe)
+    Redis(
+        "HSET", cacheKey,
+        "title", row.title,
+        "describe", row.describe,
+        "cache_expire_uinx_seconds", time.Now().Add(time.Secound*120).Unix()) row.describe,
+    )
     // 响应数据
     return {
       title: cache.title,
@@ -267,3 +273,5 @@ function QuestionByID(id string, retry int) {
 ---
 
 因为缓存存储系统和持久化数据存储系统都是不同的服务提供的（mysql redis）所以无法保证原子性，无法保证原子性就无法保证数据一致。只能通过各种补偿机制保证数据最终一致性，在极端情况下依然无法保证数据一致性。但好在很多场景并不需要实现绝对的数据一致性，允许极端情况下出现短暂的数据不一致。
+
+原文地址 https://github.com/nimoc/blog/issues/41 (原文持续更新)
