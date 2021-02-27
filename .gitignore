@@ -9,5 +9,4 @@ Gruntfile.js
 src/go_interface_basic/file_go_interface_basic.txt
 src/go_channel/*.txt
 .DS_Store
-public/
 db.json
