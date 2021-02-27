@@ -1,0 +1,79 @@
+#about-banner
+  width: 100%
+  position: relative
+  background-repeat: no-repeat
+  background-position: center
+  background-size: cover
+  height: 350px
+  &:after
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    content: ''
+    opacity: .25
+    background: url(escheres-url)
+    background-color: rgba(0, 0, 0, .05)
+  @media m-mobile
+    height: 250px
+.author
+  margin-top: -50px
+  width: 100%
+  background: color-background
+  text-align: center
+  padding: 0 1em 30px 1em
+  box-sizing: border-box
+  .head
+    width: 100px
+    height: 100px
+    border-radius: 50%
+    padding: 3px
+    background: #fff
+    box-shadow: 0 0 5px #95a5a6
+    position: relative
+    margin: 0 auto
+    opacity: 0
+    transform: translateY(-20px)
+    transition: all 0.4s
+    img
+      width: 100%
+      height: 100%
+      display: block
+      border-radius: 50%
+  h3
+    font-size: 1.4em
+    opacity: 0
+    transform: translateY(-20px)
+    transition: all 0.4s
+    transition-delay: 0.05s
+  .description
+    opacity: 0
+    transform: translateY(-20px)
+    transition: all 0.4s
+    transition-delay: 0.1s
+  .share-icons
+    opacity: 0
+    transform: translateY(-20px)
+    transition: all 0.4s
+    transition-delay: 0.15s
+    margin-top: 2em
+    a
+      font-size: 1em
+      display: inline-block
+      margin: 0 .4em
+      &:hover
+        transition: opacity 0.2s
+        opacity: .6
+    .icon-weibo
+      color: #e6162d
+    .icon-github
+      color: #333333
+    .icon-linkedin
+      color: #0077B5
+    .icon-zhihu
+      color: #0767c8
+    .icon-twitter
+      color: #2aa9e0
+    .icon-douban
+      color: #00B51D

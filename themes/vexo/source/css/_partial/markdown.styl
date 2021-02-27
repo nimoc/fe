@@ -1,0 +1,100 @@
+.markdown-content, .article-summary
+  overflow-y: auto
+  overflow-x: hidden
+  pre, code
+    font-family: 'Roboto Mono', Monaco, courier, monospace
+    font-size: 13px
+    @media m-mobile
+      font-size: 12px
+    .line
+      min-height: 13px
+      margin: 2px 0
+  p
+    line-height: 1.6em
+    padding: 8px 0px
+    code
+      background-color: color-background
+      color: color-orange
+      padding: 3px 5px
+      margin: 0 2px
+      border-radius: 2px
+      white-space: nowrap
+  h1
+    font-size: 1.8em
+  h2
+    font-size: 1.5em
+  h3
+    margin: 1em 0
+    font-size: 1.3em
+    padding-bottom: .3em
+    border-bottom: 1px solid color-border
+  h4
+    margin: 1em 0
+    font-size: 1.2em
+    &:before
+      content: "#";
+      color: color-primary
+      margin-right: 5px
+      font-size: 1.2em
+      font-weight: 700
+  h5
+    font-size: 1em
+    margin: .8em 0
+  blockquote
+    margin: 1em 0
+    padding: 0 20px
+    border-left: 4px solid color-primary
+    background: color-background
+    border-bottom-right-radius: 2px
+    border-top-right-radius: 2px
+  ul, ol
+    overflow: auto
+    margin: 15px 0
+    li
+      padding: 5px 0
+  img
+    max-width: 100%
+    display: block
+    margin: 20px auto
+    cursor: zoom-in
+  figure
+    background: color-background
+    padding: 0 10px
+    border-radius: 2px
+    margin: 20px 0
+    overflow: auto
+    position: relative
+    &:after
+      content: attr(data-lang)
+      position: absolute
+      top: 0
+      right: 0
+      color: #ccc
+      text-align: right
+      font-size: 0.7em
+      padding: 5px 10px 0
+      line-height: 15px
+      height: 15px
+      font-weight: 500
+  > table
+    width: 100%
+    thead
+      background-color: color-primary
+      border-top-width: 1px
+      border-top-style: solid
+      border-top-color: color-border
+      th
+        padding: 5px 10px
+        color: color-white
+    tbody
+      tr
+        &:nth-child(even)
+          background: #e6eed6
+        &:nth-child(odd)
+          background: color-white
+        td
+          padding: 5px 10px
+  hr
+    border: none
+    border-bottom: 1px dashed color-border
+    margin: 30px 0
