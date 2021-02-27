@@ -1,5 +1,5 @@
 @startuml
-title: 解锁操作延迟问题\ngithub.com/nimoc/blog/issues/36
+title: 解锁操作延迟问题\ngithub.com/nimoc/blog/issues/42
 autonumber
 participant thread1 #lightBlue
 database redis

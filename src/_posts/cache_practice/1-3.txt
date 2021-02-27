@@ -1,5 +1,5 @@
 @startuml
-title: 缓存穿透流程
+title: 缓存穿透流程\ngithub.com/nimoc/blog/issues/41
 start
 #pink:用户请求;
 #pink:查询缓存;

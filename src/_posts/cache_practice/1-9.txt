@@ -1,5 +1,5 @@
 @startuml
-title: 数据最终一致：设置缓存过期时间->删除数据库->删除缓存
+title: 数据最终一致：设置缓存过期时间->删除数据库->删除缓存\ngithub.com/nimoc/blog/issues/41
 autonumber
 actor updateRequest
 control server

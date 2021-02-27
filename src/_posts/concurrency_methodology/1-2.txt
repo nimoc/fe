@@ -1,5 +1,5 @@
 @startuml
-title: 使用SET EX NX 解决原子性问题\ngithub.com/nimoc/blog/issues/36
+title: 使用SET EX NX 解决原子性问题\ngithub.com/nimoc/blog/issues/42
 autonumber
 participant server
 database redis

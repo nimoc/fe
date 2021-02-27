@@ -1,5 +1,5 @@
 @startuml
-title: 数据不一致：先更新缓存后改数据库（数据库更新失败时数据一致，更新成功时数据不一致）
+title: 数据不一致：先更新缓存后改数据库（数据库更新失败时数据一致，更新成功时数据不一致）\ngithub.com/nimoc/blog/issues/41
 autonumber
 actor updateRequest
 control server

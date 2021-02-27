@@ -97,6 +97,7 @@ pagination_dir: page
 include:
 exclude:
 ignore:
+    - **/plantuml.jar
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/

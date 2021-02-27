@@ -1,5 +1,5 @@
 @startuml
-title: 数据不一致：在数据库事务中更新缓存依然无法保证原子性（事务提交失败）
+title: 数据不一致：在数据库事务中更新缓存依然无法保证原子性（事务提交失败）\ngithub.com/nimoc/blog/issues/41
 autonumber
 actor updateRequest
 control server

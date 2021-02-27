@@ -1,5 +1,5 @@
 @startuml
-title: 防止缓存穿透
+title: 防止缓存穿透\ngithub.com/nimoc/blog/issues/41
 autonumber
 actor client1
 control server

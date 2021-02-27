@@ -1,5 +1,5 @@
 @startuml
-title: 防止缓存穿透
+title: 防止缓存穿透\ngithub.com/nimoc/blog/issues/41
 start
 #pink:用户请求;
 #pink:查询缓存;

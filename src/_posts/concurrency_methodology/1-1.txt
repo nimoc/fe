@@ -1,5 +1,5 @@
 @startuml
-title: SETNX EXPIRE 的原子性问题\ngithub.com/nimoc/blog/issues/36
+title: SETNX EXPIRE 的原子性问题\ngithub.com/nimoc/blog/issues/42
 autonumber
 participant server
 database redis
