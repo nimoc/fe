@@ -1,4 +1,3 @@
-;`
 ----
 title: TypeScript 中 松散的类型当做药品
 date: 2020-04-01
@@ -22,13 +21,13 @@ issues: 34
 
 基于显而易见的原因如果你使用的是动态语言没有类型系统意味着一切都是泛型.
 
-我通过列举一个 ^filterZeroValue^ 的例子来说明情况:
+我通过列举一个 `filterZeroValue` 的例子来说明情况:
 
-> 为了把重点放在类型系统上所以使用 ^filterZeroValue^ 这个简单的函数,实际情况中不大可能封装 ^filterZeroValue^ 而是直接写 ^list.filter^.
+> 为了把重点放在类型系统上所以使用 `filterZeroValue` 这个简单的函数,实际情况中不大可能封装 `filterZeroValue` 而是直接写 `list.filter`.
 
 比如在 JavaScript 中:
 
-`
+```ts
 /*
  * 排除数组中的空值'
  * @param list
@@ -55,15 +54,16 @@ test("jsFilterZeroValue", function () {
 })
 
 
-;`
+```
+
 
 你甚至可以3行代码搞定
 
-^^^js
+```js
 function jsFilterZeroValue() {
     return list.filter((item)=> {return !!item})
 }
-^^^
+```
 
 
 不这么做是因为需要在参数是 string number 之外的的类型时进行错误提示,和减少隐式类型转换.
@@ -73,7 +73,7 @@ function jsFilterZeroValue() {
 
 > 注意不要只看下面的代码后就结束,看完文章会发现下面的代码是不好的
 
-`
+```ts
 
 function tsFilterZeroValue<T>(list: T[]): T[] {
     return list.filter(function (item) {
@@ -96,8 +96,9 @@ test("tsFilterZeroValue", function () {
     expect(tsFilterZeroValue([1,0,3])).toStrictEqual([1,3])
 })
 
-;`
-虽然通过 ^<T>(list: T[]): T[]^ 约束了必须是个数组,并且输出的类型和输入的类型一致.但是还是不能明确只允许 ^number[]^ ^string[]^ .
+```
+
+虽然通过 `<T>(list: T[]): T[]` 约束了必须是个数组,并且输出的类型和输入的类型一致.但是还是不能明确只允许 `number[]` `string[]` .
 
 
 ### 联合类型
@@ -106,7 +107,7 @@ test("tsFilterZeroValue", function () {
 
 > 联合类型和泛型其实是一类方法,在现在的这个场景的目的就是偷懒.
 
-`
+```ts
 
 function unionTypeFilterZeroValue(list: string[] | number[]) :string[] | number[] {
     let output = []
@@ -137,11 +138,12 @@ test("unionTypeFilterZeroValue", function () {
 })
 
 
-;`
+```
+
 
 ### TypeScript filterZeroValue 正确的实现
 
-上面的 ^tsFilterZeroValue^ 和 ^unionTypeFilterZeroValue^ 都不够好,
+上面的 `tsFilterZeroValue` 和 `unionTypeFilterZeroValue` 都不够好,
 反而 TypeScript 代码写的很复杂.虽然可能是我个人对 TypeScript 了解程度不够,
 要注意团队中不是每个人都是 TypeScript 高手.
 
@@ -149,7 +151,7 @@ test("unionTypeFilterZeroValue", function () {
 
 请看下面的代码
 
-`
+```ts
 
 function stringListFilterZeroValue(list: string[]) :string[] {
     return list.filter(function (v) {
@@ -168,7 +170,8 @@ test("stringAndNumberlistFilterZeroValue", function () {
     expect(numberListFilterZeroValue([1,0,3])).toStrictEqual([1,3])
 })
 
-;`
+```
+
 
 > 不要带入动态类型快猛糙的思维去写 TypeScript
 
@@ -176,7 +179,7 @@ test("stringAndNumberlistFilterZeroValue", function () {
 
 最重要的是有些情况下使用了泛型或联合类型加上编码时疏忽了会造成想不到的bug:
 
-`;
+```ts
 
 function updateSQL(id: string, names: string[]) :{sql:string, values:any[]} {
     const updateValue = stringListFilterZeroValue(names)
@@ -210,7 +213,8 @@ test("updateSQL", function (){
 })
 
 
-;`
+```
+
 
 上面的例子不够完美,本文想表达的主要的观点是:
 
@@ -238,4 +242,5 @@ test("updateSQL", function (){
 原文地址 https://github.com/nimoc/blog/issues/34 (原文保持持续更新和更多的评论)
 
 
-`;
+```ts;
+```
