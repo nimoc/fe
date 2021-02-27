@@ -1,6 +1,6 @@
 # JavaScript初学者建议：不要去管浏览器兼容
 
-[![blog.nimoc.io](http://blog.nimoc.io/notice/index.svg)](http://blog.nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
 
 
 如果可以回到过去的话，我会告诉自己这句话：**"初学 JavaScript 的时候无视 DOM 和 BOM 的兼容性"**

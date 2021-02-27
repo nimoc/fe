@@ -1,4 +1,12 @@
+----
+title: 缓存实践
+date: 2021-02-27
+tags: 后端
+----
+
 # 缓存实践
+
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
 
 本文将完整介绍以下知识点：
 

@@ -62,18 +62,18 @@
       scrollTop: banner.offsetHeight - header.height()
     }, 500)
   })
-
-  $('.toc-nav a').on('click', function (e) {
-    e.preventDefault()
-    var catalogTarget = e.currentTarget
-    var scrollTarget = $(catalogTarget.getAttribute('href'))
-    var top = scrollTarget.offset().top
-    if (top > 0) {
-      $('html,body').animate({
-        scrollTop: top - 65
-      }, 500)
-    }
-  })
+  // 
+  // $('.toc-nav a').on('click', function (e) {
+  //   e.preventDefault()
+  //   var catalogTarget = e.currentTarget
+  //   var scrollTarget = $(catalogTarget.getAttribute('href'))
+  //   var top = scrollTarget.offset().top
+  //   if (top > 0) {
+  //     $('html,body').animate({
+  //       scrollTop: top - 65
+  //     }, 500)
+  //   }
+  // })
 
   top.on('click', function () {
     $('html, body').animate({ scrollTop: 0 }, 600)

@@ -1864,12 +1864,12 @@ hexo-renderer-ejs@^1.0.0:
   dependencies:
     ejs "^2.6.1"
 
-hexo-renderer-marked@^3.0.0:
-  version "3.3.0"
-  resolved "https://registry.npm.taobao.org/hexo-renderer-marked/download/hexo-renderer-marked-3.3.0.tgz#54bce9f00d356c71392b2fc3a881df7ff6dae8bd"
+hexo-renderer-marked@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/hexo-renderer-marked/download/hexo-renderer-marked-4.0.0.tgz#f6ad880a384be13c7ebc3fc8788f86fafcf15007"
   dependencies:
     hexo-util "^2.1.0"
-    marked "^1.0.0"
+    marked "^2.0.0"
 
 hexo-renderer-stylus@^2.0.0:
   version "2.0.1"
@@ -1890,10 +1890,6 @@ hexo-server@^2.0.0:
     morgan "^1.9.1"
     open "^7.0.0"
     serve-static "^1.14.1"
-
-hexo-theme-landscape@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npm.taobao.org/hexo-theme-landscape/download/hexo-theme-landscape-0.0.3.tgz#87d1f4d613da9be5245dad0d4b80479eab70d386"
 
 hexo-util@^2.0.0, hexo-util@^2.1.0, hexo-util@^2.4.0:
   version "2.4.0"
@@ -2870,9 +2866,13 @@ marked@^0.3.6:
   version "0.3.19"
   resolved "https://registry.npm.taobao.org/marked/download/marked-0.3.19.tgz#5d47f709c4c9fc3c216b6d46127280f40b39d790"
 
-marked@^1.0.0, marked@^1.2.9:
+marked@^1.2.9:
   version "1.2.9"
   resolved "https://registry.npm.taobao.org/marked/download/marked-1.2.9.tgz?cache=0&sync_timestamp=1614406407265&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmarked%2Fdownload%2Fmarked-1.2.9.tgz#53786f8b05d4c01a2a5a76b7d1ec9943d29d72dc"
+
+marked@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/marked/download/marked-2.0.1.tgz?cache=0&sync_timestamp=1614406407265&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmarked%2Fdownload%2Fmarked-2.0.1.tgz#5e7ed7009bfa5c95182e4eb696f85e948cefcee3"
 
 markrun@^0.23.0:
   version "0.23.0"

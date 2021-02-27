@@ -1,6 +1,6 @@
 # 给应届IT从业者的一些建议
 
-[![blog.nimoc.io](http://blog.nimoc.io/notice/index.svg)](http://blog.nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
 
 我是一名 Web 前端开发程序员。在此处分享一些经验和建议给应届的IT从业者，希望能帮助你们在职业生涯中有一个好的开始（这很重要）。
 

@@ -1,4 +1,14 @@
-# 如何发现并发问题
+----
+title: 解决并发方法论
+date: 2021-02-27
+tags:
+- 后端
+- 并发
+----
+
+# 解决并发方法论
+
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
 
 首先记住以下几点
 
@@ -7,10 +17,10 @@
 3. **竞态**：考虑会有其他线程/协程/同一时间对数据进行修改
 4. 通过时序图分析问题 https://plantuml.com/zh/
 
-
 以 redis 互斥锁为案例实现上述方法论：
 
 先看一下不严谨的上锁操作会产生的问题
+
 
 ![](./concurrency_methodology/1-1.png)
 

@@ -1,6 +1,6 @@
 # 前后端数据交互方法
 
-[![blog.nimoc.io](http://blog.nimoc.io/notice/index.svg)](http://blog.nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
 
 > 本文写自 2015年,在现在看来很多方式已经被淘汰了.
 

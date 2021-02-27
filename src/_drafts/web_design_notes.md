@@ -1,6 +1,6 @@
 <h1>Web前端写给Web设计师的注意事项</h1>
 
-[![blog.nimoc.io](http://blog.nimoc.io/notice/index.svg)](http://blog.nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
 
 <blockquote>
 <p>Web 设计和 Web 前端都应该仔细阅读此文档，会减少因为设计不合理导致的返工。</p>

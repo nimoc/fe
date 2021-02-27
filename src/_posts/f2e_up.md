@@ -1,6 +1,15 @@
+----
+title: Web 前端的困局与突破
+date: 2020-05-11
+tags:
+- 前端
+- 职业思考建议
+----
+
+
 # Web 前端的困局与突破
 
-[![blog.nimoc.io](http://blog.nimoc.io/notice/index.svg)](http://blog.nimoc.io/notice/index.html)
+[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/index.html)
 
 > 每个Web前端都会不时思考自身对于团队的价值和在团队中的话语权,这类思考背后存在困局和突破
 
@@ -134,4 +143,4 @@ Swift Kotlin Java 都是不错的语言,了解他们后再回头写 TypeScript �
 
 始于前端,不局限于前端.**不要把自己限制在客户端的实现者,让自己参与产品程序设计,精前端,懂业务,懂后端.
 
-原文地址 https://github.com/nimoc/blog/issues/35 (原文保持持续更新和更多的评论) 
+原文地址 https://github.com/nimoc/blog/issues/35 (原文保持持续更新和更多的评论)
