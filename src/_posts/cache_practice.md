@@ -294,12 +294,69 @@ func UpdateQuestion(id, data) {
   MessageQueuePublish("questionUpdated", id)
 }
 ```
-
 ---
 
 因为缓存存储系统和持久化数据存储系统都是不同的服务提供的（mysql redis）所以无法保证原子性，无法保证原子性就无法保证数据一致。只能通过各种补偿机制保证数据最终一致性，在极端情况下依然无法保证数据一致性。但好在很多场景并不需要实现绝对的数据一致性，允许极端情况下出现短暂的数据不一致。比如在同步缓存的时候设置缓存10分钟，这样在极端情况下，也只会出现10分钟的缓存不一致。
 
 消息队列延迟双删会增加系统复杂度，TTL 相对而言简单很多。**高并发和数据强一致性是鱼与熊掌不可兼得**，需掌握发现问题和解决的方法根据自己的业务场景做出选择和调整。
+
+## 商品下单的缓存
+
+上面介绍了提问这种几乎全部都是读的缓存机制，下面介绍在秒杀场景如何利用缓存做库存扣减。
+
+库表设计：
+
+```
+table: goods
+field: id,title,describe
+
+table: goods_inventory
+field: goods_id,inventory
+```
+
+因为 `inventory` 在下单时是热点数据读多写多，而 `title` `describe` 读多写少非常低。
+所以将 `inventory` [水平分表](https://www.dogedoge.com/results?q=%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8)。
+
+`title`, `describe` 通过Cache Aside（边路缓存）实现，与question类似。
+
+`inventory` 单独存储在缓存中，读缓存的同步策略与 question 实现一致。
+
+当缓存存在时的缓存扣减逻辑如下：
+
+![](./cache_practice/2-1.png?v=2)
+
+伪代码
+
+```js
+func PlaceOrder(userID, goodsID, qurchaseQuantity) {
+  deductSuccess = RedisLua(` if hget(cacheKey, id) { hincrby(cacheKey, id, qurchaseQuantity) ;return 1 } else {return0}`)
+  if deductSuccess == false {
+    return "下单失败，库存不够"
+  }
+  result = CreateOrder(user, goodsID, qurchaseQuantity)
+  if result == null {
+    result = RedisCommand("HINCRBY", cacheKey, id, -qurchaseQuantity)
+    if (result.fail) {
+      // 增加监控日志，当大量出现日志，则表明代码或数据可能出现问题
+      monitorLog("warn", "PlaceOrder HINCRBY qurchaseQuantity fail", result.fail)
+    }
+    return "下单失败"
+  }
+  return "下单成功"
+}
+```
+
+> 此处缓存的作用类似于游乐园门口的票据预检员，百万个人必须通过预检员验证才能通过预检关口。预检员的小本子上记录了游乐园允许进入最大人数，每当进入一个人时候预检员将小本子上的数字递增，比如超过最大限制10万则剩下90万不允许进入。通过预检关口后游乐园闸机会进行严格耗时的票据验证，当闸机验证失败时会通知预检员进入数量进行递减。
+
+
+在上图逻辑中，扣除缓存后如果进程意外中断，或退回库存失败。会导致数据短暂不一致，商品100件，最终只卖出98件。将server -> database的操作改成消息队列发布消息，则能减少这种错误的概率。（发布消息比数据库操作稳定性高）。虽然消息队列也可能失败导致现数据不一致，只需在最后进行补偿机制，确保最终数据一致即可。
+
+
+
+> 防止 Redis 出现 hash 大 key 可以根据商品id取模，将库存分散存储。
+
+> 秒杀下单需使用客户端限流->服务端限流->请求削峰->取消订单等一系列操作，本文不做展开
+
 
 
 原文地址 https://github.com/nimoc/blog/issues/41 (原文持续更新)
