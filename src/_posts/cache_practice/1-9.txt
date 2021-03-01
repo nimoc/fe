@@ -1,5 +1,5 @@
 @startuml
-title: 数据最终一致：设置缓存过期时间->删除数据库->删除缓存\ngithub.com/nimoc/blog/issues/41
+title: 数据最终一致：TTL延迟双删\ngithub.com/nimoc/blog/issues/41
 autonumber
 actor updateRequest
 control server
@@ -7,14 +7,13 @@ database cache #pink
 database database #purple
 updateRequest->server: 发起修改数据请求
 server->cache: 给缓存key设置过期时间：EXPIRE cacheKey 5
-note right#pink: 过期时间一般设置为更新数据库的最长时间\n在极端情况下还是会出现更新数据库的时间超过了 key 的过期时间。\n 这种极端情况下会出现数据不一致。
-note left#lightgreen: 此时删除缓存失败则不会执行后续数据库更新操作\n不会导致数据不一致。
+note right: 此时如果缓存 key 被其他线程删除，则会导致过期没有设置过期时间\n过期时间一般设置为更新数据库的最长时间\n在极端情况下还是会出现更新数据库的时间超过了 key 的过期时间。\n 这种极端情况下会出现数据不一致。
 server->server: 并发场景下别的线程触发了同步缓存的操作
-note left#lightgreen:  数据最终一致：缓存key过期时间会清除这里同步的缓存\n更新数据库前数据会短暂不一致。
+note left#lightgreen:  数据最终一致：EXPIRE key会清除这里同步的缓存\n更新数据库前数据会短暂不一致。
 server->database: 更新数据库：UPDATE table SET title=?,describe=? WHERE id = ?
 alt 数据库更新失败:
-  server->o updateRequest: 返回更新失败
-  note right#lightgreen: 数据是一致的：此时缓存中无数据，而**数据库的数据不变**。
+  server->x updateRequest: 返回更新失败
+  note right#lightgreen: 数据一致：此时没有产生新数据
 end
 server->cache: 第二次删除缓存：HDET cacheKey id
 alt 第二次删除缓存失败:

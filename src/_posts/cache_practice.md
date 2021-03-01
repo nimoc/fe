@@ -1,23 +1,17 @@
 ----
+
 title: 缓存实践
 date: 2021-02-27
 tags: 后端
 issues: 41
+
 ----
 
 # 缓存实践
 
 [![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
-本文将完整介绍以下知识点：
-
-1. 读多写少
-2. 读多写多
-3. 缓存与数据库的一致性
-
-
-## 读多写少
-
+## Cache Aside（边路缓存）
 
 ### 不使用缓存
 
@@ -97,6 +91,7 @@ function QuestionByID(id) {
 
 
 > redis hash 的 feild 无法设置过期时间，可以通过定时任务使用 hscan 去检测 cache_expire_uinx_seconds 来实现 field 过期时间
+
 
 ### 缓存击穿
 
@@ -248,15 +243,17 @@ function QuestionByID(id string, retry int) {
 
 当数据量非常大时 hash 存储无效id会导致缓存数据过大，可以使用[布隆过滤器](https://www.dogedoge.com/results?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8) 降低缓存大小。可以根据实际情况选择合适的方式。
 
-### 删除旧数据的缓存
+### 更新数据时同步缓存
 
-**带着以下思路去思考数据一致性和并发问题**
+更新数据时同步缓存,需要通过删除缓存从而让后续的用户请求触发同步缓存来实现。
+如果直接设置缓存的值`HSET cacheKey ....` 在并发情况下非常容易出现数据不一致的问题。
 
-1. **行间延迟**：每个操作之间都能出现非常大的延迟（需假设每行代码之间都有 sleep 操作）
-2. **原子性**：确认哪些操作不是原子性，考虑不是原子性会导致什么问题。
-3. **并发**：考虑会有其他线程/协程/机器同一时间对数据进行修改
+先列出记住容易出现数据不一致的情况
 
-![](./cache_practice/1-6.png)
+
+![](./cache_practice/1-6.png?=3)
+
+> 另外一种错误的想法是用 SQL事务，而事务并不能解决此问题，[时序图说明](./cache_practice/1-6-2.png)。
 
 ---
 
@@ -264,14 +261,45 @@ function QuestionByID(id string, retry int) {
 
 ---
 
-![](./cache_practice/1-8.png)
+![](./cache_practice/1-8.png?v=1)
+
+伪代码
+```js
+func UpdateQuestion(id, data) {
+  cacheKey = "question:" + id
+  RedisCommand("HDEL", cacheKey, id)
+  SqlUpdate("UPDATE question SET title = ?, describe = ? WHERE id = ?")
+  RedisCommand("HDEL", cacheKey)
+  // 消息队列要解耦，只发布提问数据被更新的消息，而不是发布删除缓存的命令。这样可以多个系统复用消息。
+  MessageQueuePublish("questionUpdated", id)
+}
+```
 
 ---
 
-![](./cache_practice/1-9.png)
+![](./cache_practice/1-9.png?v=2)
+
+伪代码
+```js
+func UpdateQuestion(id, data) {
+  cacheKey = "question:" + id
+  result = RedisCommand("EXPIRE", cacheKey, sec)
+  if result == 0 {
+    // 增加监控日志，当大量出现设置失败，则表明需要当前业务场景下不适合用 TTL 延迟双删
+    monitorLog("warn", "question update cache set ttl fail, key not exist" + cacheKey )
+  }
+  SqlUpdate("UPDATE question SET title = ?, describe = ? WHERE id = ?")
+
+  // 消息队列要解耦，只发布提问数据被更新的消息，而不是发布删除缓存的命令。这样可以多个系统复用消息。
+  MessageQueuePublish("questionUpdated", id)
+}
+```
 
 ---
 
-因为缓存存储系统和持久化数据存储系统都是不同的服务提供的（mysql redis）所以无法保证原子性，无法保证原子性就无法保证数据一致。只能通过各种补偿机制保证数据最终一致性，在极端情况下依然无法保证数据一致性。但好在很多场景并不需要实现绝对的数据一致性，允许极端情况下出现短暂的数据不一致。
+因为缓存存储系统和持久化数据存储系统都是不同的服务提供的（mysql redis）所以无法保证原子性，无法保证原子性就无法保证数据一致。只能通过各种补偿机制保证数据最终一致性，在极端情况下依然无法保证数据一致性。但好在很多场景并不需要实现绝对的数据一致性，允许极端情况下出现短暂的数据不一致。比如在同步缓存的时候设置缓存10分钟，这样在极端情况下，也只会出现10分钟的缓存不一致。
+
+消息队列延迟双删会增加系统复杂度，TTL 相对而言简单很多。**高并发和数据强一致性是鱼与熊掌不可兼得**，需掌握发现问题和解决的方法根据自己的业务场景做出选择和调整。
+
 
 原文地址 https://github.com/nimoc/blog/issues/41 (原文持续更新)
