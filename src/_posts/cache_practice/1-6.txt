@@ -1,18 +1,20 @@
 @startuml
-title: 数据不一致：先改数据库再更新缓存（缓存更新失败）\ngithub.com/nimoc/blog/issues/41
+title: 数据不一致：先更新缓存后改数据库（数据库更新失败时数据一致，更新成功时数据不一致）\ngithub.com/nimoc/blog/issues/41
 autonumber
 actor updateRequest
 control server
 database cache #pink
 database database #purple
 updateRequest->server: 发起修改数据请求
-server->database: 更新数据库：UPDATE table SET title=?,describe=? WHERE id = ?
-note left#lightgreen: 此时数据库更新失败则不会执行后续的缓存更新操作\n不会导致数据不一致。
 server->cache: 删除缓存：HDET cacheKey id
-alt 删除缓存：HDET失败:
+note left#lightgreen: 此时删除缓存失败则不会执行后续数据库更新操作\n不会导致数据不一致。
+server->server: 并发场景下别的线程触发了同步缓存的操作
+note right:  因为此时数据还没更新。导致缓存此时同步的是旧数据。
+server->database: 更新数据库：UPDATE table SET title=?,describe=? WHERE id = ?
+alt 数据库更新失败:
   server->o updateRequest: 返回更新失败
-  note right#pink: 数据不一致：此时数据库是新数据，而**缓存依然存在，并且数据是旧数据**。
+  note right#lightgreen: 数据一致：此时缓存中无数据，而**数据库的数据不变**。
 end
 server->o updateRequest: 返回更新成功
-note right#lightgreen: 数据一致：此时数据库是新数据，缓存被删除，后续同步缓存时候缓存数据为新数据。
+note right#pink: 数据不一致：因为更新数据库之前可能有其他线程执行了同步缓存
 @enduml

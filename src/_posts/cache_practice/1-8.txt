@@ -1,5 +1,5 @@
 @startuml
-title: 数据不一致：先删除缓存后改数据库（数据库更新失败时数据一致，更新成功时数据不一致）\ngithub.com/nimoc/blog/issues/41
+title: 数据最终一致：消息队列延迟双删\ngithub.com/nimoc/blog/issues/41
 autonumber
 actor updateRequest
 control server
@@ -7,18 +7,18 @@ database cache #pink
 database database #purple
 updateRequest->server: 发起修改数据请求
 server->cache: 删除缓存：HDET cacheKey id
-note left#lightgreen: 此时删除缓存失败则不会执行后续数据库更新操作\n不会导致数据不一致。
 server->server: 并发场景下别的线程触发了同步缓存的操作
-note left:  因为此时数据还没更新。所以缓存此时同步的是旧数据。
+note left:  因为此时数据还没更新。所以缓存此时同步的是旧数据。会导致缓存短暂不一致
 server->database: 更新数据库：UPDATE table SET title=?,describe=? WHERE id = ?
 alt 数据库更新失败:
-  server->o updateRequest: 返回更新失败
-  note right#lightgreen: 数据一致：此时缓存中无数据，而**数据库的数据不变**。
+  server->x updateRequest: 返回更新失败
+  note right#lightgreen: 数据一致：此时没有产生新数据
 end
 server->cache: 删除缓存：HDET cacheKey id
 note left: 删除缓存可能失败
 server->message_qeueue: 在消息队列发布延迟删除消息
-note left: 发布消息可能失败，去解决消息失败会增加更多的工作量和复杂度，\n并且无法完全解决消息发布失败和消息丢失。
+note left: 消息可能发布失败，或者发布后没有被消费
 server->o updateRequest: 返回更新成功
-note right#pink: 数据不一致：因为更新数据库之后可能没有删除缓存
+note right#lightblue: 数据最终一致：第二次删除缓存如果失败了，会有消息队列兜底。\n如果第二次删除缓存和消息队列都失败了，则会出现数据不一致.
+
 @enduml

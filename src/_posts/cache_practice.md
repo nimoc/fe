@@ -1,23 +1,17 @@
 ----
+
 title: 缓存实践
 date: 2021-02-27
 tags: 后端
 issues: 41
+
 ----
 
 # 缓存实践
 
 [![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
-本文将完整介绍以下知识点：
-
-1. 读多写少
-2. 读多写多
-3. 缓存与数据库的一致性
-
-
-## 读多写少
-
+## Cache Aside（边路缓存）
 
 ### 不使用缓存
 
@@ -97,6 +91,7 @@ function QuestionByID(id) {
 
 
 > redis hash 的 feild 无法设置过期时间，可以通过定时任务使用 hscan 去检测 cache_expire_uinx_seconds 来实现 field 过期时间
+
 
 ### 缓存击穿
 
@@ -248,15 +243,17 @@ function QuestionByID(id string, retry int) {
 
 当数据量非常大时 hash 存储无效id会导致缓存数据过大，可以使用[布隆过滤器](https://www.dogedoge.com/results?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8) 降低缓存大小。可以根据实际情况选择合适的方式。
 
-### 删除旧数据的缓存
+### 更新数据时同步缓存
 
-**带着以下思路去思考数据一致性和并发问题**
+更新数据时同步缓存,需要通过删除缓存从而让后续的用户请求触发同步缓存来实现。
+如果直接设置缓存的值`HSET cacheKey ....` 在并发情况下非常容易出现数据不一致的问题。
 
-1. **行间延迟**：每个操作之间都能出现非常大的延迟（需假设每行代码之间都有 sleep 操作）
-2. **原子性**：确认哪些操作不是原子性，考虑不是原子性会导致什么问题。
-3. **并发**：考虑会有其他线程/协程/机器同一时间对数据进行修改
+先列出记住容易出现数据不一致的情况
 
-![](./cache_practice/1-6.png)
+
+![](./cache_practice/1-6.png?=3)
+
+> 另外一种错误的想法是用 SQL事务，而事务并不能解决此问题，[时序图说明](./cache_practice/1-6-2.png)。
 
 ---
 
@@ -264,14 +261,102 @@ function QuestionByID(id string, retry int) {
 
 ---
 
-![](./cache_practice/1-8.png)
+![](./cache_practice/1-8.png?v=1)
+
+伪代码
+```js
+func UpdateQuestion(id, data) {
+  cacheKey = "question:" + id
+  RedisCommand("HDEL", cacheKey, id)
+  SqlUpdate("UPDATE question SET title = ?, describe = ? WHERE id = ?")
+  RedisCommand("HDEL", cacheKey)
+  // 消息队列要解耦，只发布提问数据被更新的消息，而不是发布删除缓存的命令。这样可以多个系统复用消息。
+  MessageQueuePublish("questionUpdated", id)
+}
+```
 
 ---
 
-![](./cache_practice/1-9.png)
+![](./cache_practice/1-9.png?v=2)
 
+伪代码
+```js
+func UpdateQuestion(id, data) {
+  cacheKey = "question:" + id
+  result = RedisCommand("EXPIRE", cacheKey, sec)
+  if result == 0 {
+    // 增加监控日志，当大量出现设置失败，则表明需要当前业务场景下不适合用 TTL 延迟双删
+    monitorLog("warn", "question update cache set ttl fail, key not exist" + cacheKey )
+  }
+  SqlUpdate("UPDATE question SET title = ?, describe = ? WHERE id = ?")
+
+  // 消息队列要解耦，只发布提问数据被更新的消息，而不是发布删除缓存的命令。这样可以多个系统复用消息。
+  MessageQueuePublish("questionUpdated", id)
+}
+```
 ---
 
-因为缓存存储系统和持久化数据存储系统都是不同的服务提供的（mysql redis）所以无法保证原子性，无法保证原子性就无法保证数据一致。只能通过各种补偿机制保证数据最终一致性，在极端情况下依然无法保证数据一致性。但好在很多场景并不需要实现绝对的数据一致性，允许极端情况下出现短暂的数据不一致。
+因为缓存存储系统和持久化数据存储系统都是不同的服务提供的（mysql redis）所以无法保证原子性，无法保证原子性就无法保证数据一致。只能通过各种补偿机制保证数据最终一致性，在极端情况下依然无法保证数据一致性。但好在很多场景并不需要实现绝对的数据一致性，允许极端情况下出现短暂的数据不一致。比如在同步缓存的时候设置缓存10分钟，这样在极端情况下，也只会出现10分钟的缓存不一致。
+
+消息队列延迟双删会增加系统复杂度，TTL 相对而言简单很多。**高并发和数据强一致性是鱼与熊掌不可兼得**，需掌握发现问题和解决的方法根据自己的业务场景做出选择和调整。
+
+## 商品下单的缓存
+
+上面介绍了提问这种几乎全部都是读的缓存机制，下面介绍在秒杀场景如何利用缓存做库存扣减。
+
+库表设计：
+
+```
+table: goods
+field: id,title,describe
+
+table: goods_inventory
+field: goods_id,inventory
+```
+
+因为 `inventory` 在下单时是热点数据读多写多，而 `title` `describe` 读多写少非常低。
+所以将 `inventory` [水平分表](https://www.dogedoge.com/results?q=%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8)。
+
+`title`, `describe` 通过Cache Aside（边路缓存）实现，与question类似。
+
+`inventory` 单独存储在缓存中，读缓存的同步策略与 question 实现一致。
+
+当缓存存在时的缓存扣减逻辑如下：
+
+![](./cache_practice/2-1.png?v=2)
+
+伪代码
+
+```js
+func PlaceOrder(userID, goodsID, qurchaseQuantity) {
+  deductSuccess = RedisLua(` if hget(cacheKey, id) { hincrby(cacheKey, id, qurchaseQuantity) ;return 1 } else {return0}`)
+  if deductSuccess == false {
+    return "下单失败，库存不够"
+  }
+  result = CreateOrder(user, goodsID, qurchaseQuantity)
+  if result == null {
+    result = RedisCommand("HINCRBY", cacheKey, id, -qurchaseQuantity)
+    if (result.fail) {
+      // 增加监控日志，当大量出现日志，则表明代码或数据可能出现问题
+      monitorLog("warn", "PlaceOrder HINCRBY qurchaseQuantity fail", result.fail)
+    }
+    return "下单失败"
+  }
+  return "下单成功"
+}
+```
+
+> 此处缓存的作用类似于游乐园门口的票据预检员，百万个人必须通过预检员验证才能通过预检关口。预检员的小本子上记录了游乐园允许进入最大人数，每当进入一个人时候预检员将小本子上的数字递增，比如超过最大限制10万则剩下90万不允许进入。通过预检关口后游乐园闸机会进行严格耗时的票据验证，当闸机验证失败时会通知预检员进入数量进行递减。
+
+
+在上图逻辑中，扣除缓存后如果进程意外中断，或退回库存失败。会导致数据短暂不一致，商品100件，最终只卖出98件。将server -> database的操作改成消息队列发布消息，则能减少这种错误的概率。（发布消息比数据库操作稳定性高）。虽然消息队列也可能失败导致现数据不一致，只需在最后进行补偿机制，确保最终数据一致即可。
+
+
+
+> 防止 Redis 出现 hash 大 key 可以根据商品id取模，将库存分散存储。
+
+> 秒杀下单需使用客户端限流->服务端限流->请求削峰->取消订单等一系列操作，本文不做展开
+
+
 
 原文地址 https://github.com/nimoc/blog/issues/41 (原文持续更新)
