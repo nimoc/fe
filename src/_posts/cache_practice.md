@@ -217,7 +217,7 @@ function QuestionByID(id string, retry int) {
     row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1")
     if row == null {
       // 标记无效数据
-      invalid = RedisCommand("HSET", "question_invalid", id, time.Now().Add(time.Secound*120).Unix())
+      invalid = RedisCommand("HSET", "question_invalid", id, time.Now().Add(time.Secound*10).Unix())
       // 值设为无效标记超时时间，便于 HSCAN 清除数据
       return {
         type: "fail",
@@ -240,6 +240,8 @@ function QuestionByID(id string, retry int) {
   }
 }
 ```
+
+> 如果数据的id是自增id这种已经被简单穷举递增的，则要注意如果有恶意攻击者递增id攻击。会导致第一秒因为查询无效某个id设为了无效（超时10s），第二秒有新数据创建，新数据的id刚好是这个id.此时就会导致新数据120s内无法被访问。所以数字id应该讲缓存过期时间设置的短一点，能防御恶意攻击即可。
 
 当数据量非常大时 hash 存储无效id会导致缓存数据过大，可以使用[布隆过滤器](https://www.dogedoge.com/results?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8) 降低缓存大小。可以根据实际情况选择合适的方式。
 
