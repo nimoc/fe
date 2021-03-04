@@ -1,13 +1,13 @@
 ----
 
-title: 缓存实践
+title: Redis实践
 date: 2021-02-27
 tags: 后端
 issues: 41
 
 ----
 
-# 缓存实践
+# Redis实践
 
 [![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
 
@@ -37,6 +37,58 @@ function QuestionByID(id) {
 
 上线后发现数据库压力过大，服务延迟非常高，
 
+## 缓存三问
+
+实现缓存时需要先思考几个问题：
+
+1. **KEY_VALUE**: 缓存的数据结构和 `key` 是什么？
+
+以 redis 为例，有 `strings` `hashes` `lists` `sets` `sorted sets` 等常用数据结构，首先需要熟悉这些数据结构，了解各种操作的时间复杂度，尽可能的选择O(1),为了保证 redis 高速也要考虑数量非常大时如何合理的制定 key 和数据结构。
+
+2. **TTL**:缓存过期时间是多少？
+
+
+可以从以下几个时间维度考虑
+1. 1s
+2. 10s
+3. 30s
+4. 1m
+5. 10m
+6. 30m
+7. 1h
+8. forever
+
+在性能角度最理想的是 forever 永不过期。但是在实际工作中如果设置为永久一旦出现缓存与数据不一致，会导致数据永久不一致。并且永不过期的缓存也会持续占用内存空间。
+
+设置为 1s 则在大部分场景下导致缓存创建完成后还没怎么命中就已经失效了，缓存命中率过低导致缓存没有发挥高速访问的价值。
+缓存的过期时间并不能算出一个准确的数值，一般都是一个大概的范围。
+
+最小时间为：
+
+**高并发时数据库访问限制**
+
+比如在提问详情的缓存场景下缓存时间为 10s，当10秒只对数据库访问一次时候缓存能降低数据库的压力并且提高服务的响应速度。
+
+只要你觉得合适 设置为 5s 1m 都是可以的，没有绝对的标准。不要过于纠结这个时间。在线上环境观测服务性能对缓存做出调整才能找出最完美的时间。
+
+最大时间为：
+
+**出现数据不一致时可以接受的时间**
+
+当我们希望缓存尽可能长时候，可能会设置1天。如果出现了数据库更新了，但是删除缓存时失败。会导致一整天数据都不一致。如果时间设置的短一点，则数据不一致的时间会小很多。
+比如设置为 10s 时如果出现数据不一致只会导致 10s 的数据不一致。
+
+永不过期：
+
+有些特殊创建下会设置永不过期，需要你根据业务场景自己考虑判断。缓存出现大量永不过期会导致内存空间越来越小。接受小概率宕机导致的数据丢失，要求高速读写，可以永久存储在 Redis 。
+
+3. **REFRESH**: 数据更新后缓存如何清除？
+
+一般情况下，在数据更新后应该立即删除缓存，让数据再次被访问时触发缓存同步的业务逻辑代码。
+
+一种特殊情况是数据更新后不需要清除缓存，因为缓存的不是数据id。可能是一些动态的搜索条件作为key,这样的场景无法快速准确的找到要删除的 key，如果删除全部缓存。会导致缓存雪崩。此时缓存必须设置一个合理的较短的过期时间，已减少数据修改后缓存与数据不一致。
+
+
 ## 使用缓存
 
 为了解决次问题，使用缓存减少频繁的 sql 操作。
@@ -51,13 +103,21 @@ function QuestionByID(id) {
 ![](./cache_practice/1-1.png)
 
 
-
 修改后的伪代码如下：
+```js
+function QuestionByID(id string) {
+  // ++++++++++++++++++++++++++++++++
+  cacheKey = "question"
+  cache = Redis("HGETALL", cacheKey, id)
+  if (cache) {
+    // 因为 redis 不支持对 hash 的 field 设置过期时间，所以通过被动检查的方式删除
+    if (cache.expire_at_uinx_millisecond >= nowMillisecond()) {
+      Redis("HDEL", cacheKey, id)
+      cache = nill
+    }
+  }
+  // ++++++++++++++++++++++++++++++++
 
-```javascript
-function QuestionByID(id) {
-  cacheKey = "question:" + id
-  cache = Redis("HGETALL", cacheKey, )
   // 判断缓存是否存在
   if (cache == nil) {
     // 查询数据库
@@ -68,13 +128,14 @@ function QuestionByID(id) {
         msg : "数据不存在"，
       }
     }
+    // ++++++++++++++++++++++++++++++++
     // 将数据库的数据同步到缓存
-    Redis(
-        "HSET", cacheKey,
-        "title", row.title,
-        "describe", row.describe,
-        "cache_expire_uinx_seconds", time.Now().Add(time.Secound*120).Unix()) row.describe,
-    )
+    cache = row
+    // 缓存过期时间 10s
+    cahce.expire_at_uinx_millisecond = nowMillisecond() + 1000 * 10
+    Redis("HSET", cacheKey, id,  jsonToString(row))
+    // ++++++++++++++++++++++++++++++++
+
     // 响应数据
     return {
       title: cache.title,
@@ -88,9 +149,6 @@ function QuestionByID(id) {
   }
 }
 ```
-
-
-> redis hash 的 feild 无法设置过期时间，可以通过定时任务使用 hscan 去检测 cache_expire_uinx_seconds 来实现 field 过期时间
 
 
 ### 缓存击穿
@@ -117,18 +175,29 @@ function QuestionByID(id) {
 修改后的伪代码如下：
 
 ```javascript
+
 function QuestionByID(id string, retry int) {
-  // （可暂时跳过这一段 if 代码）为防止意外多次重试出现死循环，增加中断条件
+  //为防止意外多次重试出现死循环，增加中断条件
+  // ++++++++++++++++++++++++++++++
   if (retry > 2) {
     return {
       type: "fail",
       message: "提问获取失败，请重试。"
     }
   }
-  cacheKey = "question:" + id cache = Redis("HGETALL", cacheKey, )
-
+  // ++++++++++++++++++++++++++++++
+  cacheKey = "question"
+  cache = Redis("HGETALL", cacheKey, id)
+  if (cache) {
+    if (cache.expire_at_uinx_millisecond >= nowMillisecond()) {
+      Redis("HDEL", cacheKey, id)
+      cache = nill
+    }
+  }
+  // 判断缓存是否存在
   if (cache == nil) {
     // 互斥锁
+    // ++++++++++++++++++++++++++++++
     lockKey = "question_sync_cache:" + id lockSuccess,
     Unlock = Lock(lockKey, {
       ExpireSeconds: 3
@@ -138,7 +207,7 @@ function QuestionByID(id string, retry int) {
       // 再次调用 QuestionByID 重试查询，因为根据测试结果1秒的时间足够同步缓存完成。
       return QuestionByID(id, retry + 1)
     }
-
+    // ++++++++++++++++++++++++++++++
     row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1")
     if row == null {
       return {
@@ -146,13 +215,9 @@ function QuestionByID(id string, retry int) {
         msg : "数据不存在"，
       }
     }
-    Redis("HSET", cacheKey, "title", row.title, "describe", row.describe, "cache_expire_uinx_seconds", time.Now().Add(time.Secound*120).Unix())
-    unlockSuccess = Unlock()
-    // 解锁失败
-    if (unlockSuccess == false) {
-      // 再次调用 QuestionByID 重试查询
-      return QuestionByID(id, retry + 1)
-    }
+    cache = row
+    cahce.expire_at_uinx_millisecond = nowMillisecond() + 1000 * 10
+    Redis("HSET", cacheKey, id,  jsonToString(row))
     return {
       title: cache.title,
       describe: cache.describe,
@@ -196,39 +261,65 @@ function QuestionByID(id string, retry int) {
     }
   }
   cacheKey = "question:" + id cache = Redis("HGETALL", cacheKey, )
-
+  //为防止意外多次重试出现死循环，增加中断条件
+  if (retry > 2) {
+    return {
+      type: "fail",
+      message: "提问获取失败，请重试。"
+    }
+  }
+  cacheKey = "question"
+  cache = Redis("HGETALL", cacheKey, id)
+  if (cache) {
+    if (cache.expire_at_uinx_millisecond >= nowMillisecond()) {
+      Redis("HDEL", cacheKey, id)
+      cache = nill
+    }
+  }
+  // 判断缓存是否存在
   if (cache == nil) {
+
     // 在缓存中查询是否是无效数据
-    invalid = RedisCommand("HGET", "question_invalid", id)
+    // ++++++++++++++++++++++++
+    invalidTime = Redis("HGET", "question_invalid", id)
+    if (invalidTime > nowMillisecond()) {
+      invalidTime =  false
+      Redis("HDEL", "question_invalid", id)
+    }
     if (invalid) {
       return {
         type: "fail",
         msg : "数据不存在"，
       }
     }
+    // ++++++++++++++++++++++++
+
+    // 互斥锁
     lockKey = "question_sync_cache:" + id lockSuccess,
     Unlock = Lock(lockKey, {
       ExpireSeconds: 3
     }) if (lockSuccess == false) {
+      // 锁被占用时等待1秒
       SleepSeconds(1)
+      // 再次调用 QuestionByID 重试查询，因为根据测试结果1秒的时间足够同步缓存完成。
       return QuestionByID(id, retry + 1)
     }
-
     row = SQLQuery("SELECT title, describe FROM question WHERE id = ? LIMIT 1")
     if row == null {
+
       // 标记无效数据
-      invalid = RedisCommand("HSET", "question_invalid", id, time.Now().Add(time.Secound*10).Unix())
-      // 值设为无效标记超时时间，便于 HSCAN 清除数据
+      // ++++++++++++++++++++++
+      Redis("HSET", "question_invalid", id, nowMillisecond() + 1000 * 10)
+      // ++++++++++++++++++++++
+
       return {
         type: "fail",
         msg : "数据不存在"，
       }
     }
-    Redis("HSET", cacheKey, "title", row.title, "describe", row.describe, "cache_expire_uinx_seconds", time.Now().Add(time.Secound*120).Unix())
-    unlockSuccess = Unlock()
-    if (unlockSuccess == false) {
-      return QuestionByID(id, retry + 1)
-    }
+    cache = row
+    cahce.expire_at_uinx_millisecond = nowMillisecond() + 1000 * 10
+    Redis("HSET", cacheKey, id,  jsonToString(row))
     return {
       title: cache.title,
       describe: cache.describe,
@@ -241,7 +332,7 @@ function QuestionByID(id string, retry int) {
 }
 ```
 
-> 如果数据的id是自增id这种已经被简单穷举递增的，则要注意如果有恶意攻击者递增id攻击。会导致第一秒因为查询无效某个id设为了无效（超时10s），第二秒有新数据创建，新数据的id刚好是这个id.此时就会导致新数据120s内无法被访问。所以数字id应该讲缓存过期时间设置的短一点，能防御恶意攻击即可。
+> 如果数据的id是自增id这种已经被简单穷举递增的，则要注意如果有恶意攻击者递增id攻击。会导致第一秒因为查询无效某个id设为了无效（超时10s），第二秒有新数据创建，新数据的id刚好是这个id.此时就会导致新数据10s内无法被访问。所以是数字id应该将缓存过期时间设置的短一点，能防御恶意攻击即可。
 
 当数据量非常大时 hash 存储无效id会导致缓存数据过大，可以使用[布隆过滤器](https://www.dogedoge.com/results?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8) 降低缓存大小。可以根据实际情况选择合适的方式。
 
@@ -269,9 +360,9 @@ function QuestionByID(id string, retry int) {
 ```js
 func UpdateQuestion(id, data) {
   cacheKey = "question:" + id
-  RedisCommand("HDEL", cacheKey, id)
+  Redis("HDEL", cacheKey, id)
   SqlUpdate("UPDATE question SET title = ?, describe = ? WHERE id = ?")
-  RedisCommand("HDEL", cacheKey)
+  Redis("HDEL", cacheKey)
   // 消息队列要解耦，只发布提问数据被更新的消息，而不是发布删除缓存的命令。这样可以多个系统复用消息。
   MessageQueuePublish("questionUpdated", id)
 }
@@ -285,7 +376,7 @@ func UpdateQuestion(id, data) {
 ```js
 func UpdateQuestion(id, data) {
   cacheKey = "question:" + id
-  result = RedisCommand("EXPIRE", cacheKey, sec)
+  result = Redis("EXPIRE", cacheKey, sec)
   if result == 0 {
     // 增加监控日志，当大量出现设置失败，则表明需要当前业务场景下不适合用 TTL 延迟双删
     monitorLog("warn", "question update cache set ttl fail, key not exist" + cacheKey )
@@ -301,6 +392,7 @@ func UpdateQuestion(id, data) {
 因为缓存存储系统和持久化数据存储系统都是不同的服务提供的（mysql redis）所以无法保证原子性，无法保证原子性就无法保证数据一致。只能通过各种补偿机制保证数据最终一致性，在极端情况下依然无法保证数据一致性。但好在很多场景并不需要实现绝对的数据一致性，允许极端情况下出现短暂的数据不一致。比如在同步缓存的时候设置缓存10分钟，这样在极端情况下，也只会出现10分钟的缓存不一致。
 
 消息队列延迟双删会增加系统复杂度，TTL 相对而言简单很多。**高并发和数据强一致性是鱼与熊掌不可兼得**，需掌握发现问题和解决的方法根据自己的业务场景做出选择和调整。
+
 
 ## 商品下单的缓存
 
@@ -325,7 +417,7 @@ field: goods_id,inventory
 
 当缓存存在时的缓存扣减逻辑如下：
 
-![](./cache_practice/2-1.png?v=2)
+![](./cache_practice/3-1.png?v=2)
 
 伪代码
 
@@ -337,7 +429,7 @@ func PlaceOrder(userID, goodsID, qurchaseQuantity) {
   }
   result = CreateOrder(user, goodsID, qurchaseQuantity)
   if result == null {
-    result = RedisCommand("HINCRBY", cacheKey, id, -qurchaseQuantity)
+    result = Redis("HINCRBY", cacheKey, id, -qurchaseQuantity)
     if (result.fail) {
       // 增加监控日志，当大量出现日志，则表明代码或数据可能出现问题
       monitorLog("warn", "PlaceOrder HINCRBY qurchaseQuantity fail", result.fail)
@@ -358,6 +450,49 @@ func PlaceOrder(userID, goodsID, qurchaseQuantity) {
 > 防止 Redis 出现 hash 大 key 可以根据商品id取模，将库存分散存储。
 
 > 秒杀下单需使用客户端限流->服务端限流->请求削峰->取消订单等一系列操作，本文不做展开
+
+
+## UV 统计
+
+标记用户已访问过使用 sets
+
+```js
+{
+  "news_viewd:news_id:@newsID:user_id": {
+    @userID,
+    @userID,
+  }
+}
+```
+
+uv计数 使用 hashes
+
+```js
+{
+  "news_uv": {
+    "@newsID":  0,
+    "@newsID":  1,
+  }
+}
+```
+
+```js
+function news(userID, newsID) {
+  viewdKey = "news_viewd:news_id:" + newsID + ":user_id:"
+  addCount = Redis("SADD", viewdKey, userID)
+  // 0 表示数据已经存在
+  if (addCount == 0) {
+    return
+  }
+  newsUVKey = "news_uv"
+  Redis("HINCR", newsUVKey, userID)
+}
+```
+
+> 如果 uv 按天统计，则在 key 中加上日期 `news_viewd:date:2020-11-11:news_id:1:user_id`, 如果需要清除数据，每日凌晨使用定时任务清除昨日数据即可。
+> 如果 uv 是按一周统计则 key 中加上的是月份和第几周 "2000-02-1" (2020年二月份第一周)
+> 如果 uv 是按n天计算一次，`"2000-" + ceil(date/n)` ，注意一年只有365天，当 n 为2时最后一个间隔是1，其他间隔都是2。如果需求方允许出现这个偏差，可以忽略。
+
 
 
 
