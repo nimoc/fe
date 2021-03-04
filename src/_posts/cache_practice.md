@@ -494,6 +494,27 @@ function news(userID, newsID) {
 > 如果 uv 是按n天计算一次，`"2000-" + ceil(date/n)` ，注意一年只有365天，当 n 为2时最后一个间隔是1，其他间隔都是2。如果需求方允许出现这个偏差，可以忽略。
 
 
+sets hash 统计uv当数据量非常大时会占用非常大的空间。
 
+这种情况下可以使用 [hyperloglogs](https://redis.io/topics/data-types-intro#hyperloglogs)。
+
+
+```js
+function news(userID, newsID) {
+  hllKey = "news_viewd:news_id:" + newsID
+  addCount = Redis("PFADD", hllKey, userID)
+  // 0 表示数据已经存在
+  if (addCount == 0) {
+    return
+  }
+}
+func newsUV(newsID) {
+  hllKey = "news_viewd:news_id:" + newsID
+  uv = Redis("PFCOUNT", hllKey)
+  return uv
+}
+```
+
+但要注意 HyperLogLog 会存在 0.81% 的误差，在数据不敏感的情况下 hyperloglogs 是个不错的选择。
 
 原文地址 https://github.com/nimoc/blog/issues/41 (原文持续更新)
