@@ -3,10 +3,10 @@ package drafts_test
 import (
 	"encoding/json"
 	"errors"
+	"github.com/stretchr/testify/assert"
 	"log"
 	"reflect"
 	"testing"
-	assert "github.com/stretchr/testify/assert"
 )
 
 var _= `
