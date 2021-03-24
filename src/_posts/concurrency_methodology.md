@@ -70,7 +70,6 @@ CREATE TABLE `pools` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
-> 因涉及公司部分业务细节，表已经做过简化。
 
 关键字段是：`used` `amount`
 
