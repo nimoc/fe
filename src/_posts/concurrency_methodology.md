@@ -57,9 +57,8 @@ issues: 42
 红包池是基于一张表实现的，表结构如下
 
 ```sql
-CREATE TABLE `event_gift_pools` (
+CREATE TABLE `pools` (
   `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'uuid',
-  `event_gift_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '活动礼品id',
   `used` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已使用',
   `amount` decimal(11,2) NOT NULL DEFAULT '0.00' COMMENT '金额',
   `owner_key` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '',
@@ -67,20 +66,21 @@ CREATE TABLE `event_gift_pools` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `event_gift_id` (`event_gift_id`),
   KEY `owner_key` (`owner_key`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
-关键字段是： `event_gift_id` `used` `amount`
+> 因涉及公司部分业务细节，表已经做过简化。
+
+关键字段是：`used` `amount`
 
 例如数据内容为：
 
 ```
-id,event_gift_id,used,amount,owner_key
-1,1,0,0.3,""
-2,1,0,0.3,""
-3,1,0,0.3,""
+id,used,amount,owner_key
+1,0,0.3,""
+2,0,0.3,""
+3,0,0.3,""
 ```
 
 
@@ -98,15 +98,17 @@ id,event_gift_id,used,amount,owner_key
 function luckyDraw() {
   // 正式代码不要将参数写在sql中，要防止依赖注入
   ownerKey = uuid()
-  rowsAffected = sql("UPDATE event_gift_pools SET used=1, owner_key = ${ownerKey}  WHERE event_gift_id = 1 AND used = 0 LIMIT 1")
+  rowsAffected = sql("UPDATE pools SET used=1, owner_key = ${ownerKey}  WHERE used = 0 LIMIT 1")
+  // 如果sql不支持 rowsAffected 可以基于 ownerKey 再查询一次判断修改是否成功
   if (rowsAffected == 0) {
-    // 如果不支持 rowsAffected 可以基于 ownerKey 再查询一次判断修改是否成功
     return "谢谢惠顾"
   }
-  data = sql("SELECT * FROM event_gift_pools WHERE ownerKey = ${ownerKey} AND used=1 LIMIT 1")
+  data = sql("SELECT * FROM pools WHERE ownerKey = ${ownerKey} AND used=1 LIMIT 1")
   return "中奖了，发放" + data.amount + "元！"
 }
 ```
+
+> 上面的伪代码没有做防御式编程，实际代码应该判断 rowsAffected > 1 和 data 没查到的情况
 
 SQL UPDATE 是原子性操作，所以极限并发情况下，一万个请求在一秒内写入DB，只有3个请求会写入成功，其他请求均反馈 rowsAffected = 0。
 
