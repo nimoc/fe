@@ -88,6 +88,8 @@ id,event_gift_id,used,amount,owner_key
 例如三个用户请求一起进入查询，会全部去尝试给 id:1 上锁，只有一个请求能上锁成功。
 其余2个请求都会失败。
 
+![](./concurrency_methodology/2-1.png)
+
 采用 **CAS** (Compare And Swap)乐观锁和**数据标记** `owner_key`来实现。
 
 伪代码如下
