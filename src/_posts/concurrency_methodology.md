@@ -46,7 +46,7 @@ issues: 42
 
 ![](./concurrency_methodology/1-5.png)
 
-## sql 红包池
+## sql红包池
 
 考虑如下业务场景：
 
@@ -95,7 +95,7 @@ id,event_gift_id,used,amount,owner_key
 ```js
 function luckyDraw() {
   // 正式代码不要将参数写在sql中，要防止依赖注入
-  ownerKey = uuuid()
+  ownerKey = uuid()
   rowsAffected = sql("UPDATE event_gift_pools SET used=1, owner_key = ${ownerKey}  WHERE event_gift_id = 1 AND used = 0 LIMIT 1")
   if (rowsAffected == 0) {
     // 如果不支持 rowsAffected 可以基于 ownerKey 再查询一次判断修改是否成功
@@ -105,6 +105,10 @@ function luckyDraw() {
   return "中奖了，发放" + data.amount + "元！"
 }
 ```
+
+SQL UPDATE 是原子性操作，所以极限并发情况下，一万个请求在一秒内写入DB，只有3个请求会写入成功，其他请求均反馈 rowsAffected = 0。
+
+> 如果加上 order by 就能在sql中模拟栈和队列。
 
 TODO:解锁失败后锁回滚，心跳续命锁，etcd分布式锁
 

@@ -1,0 +1,18 @@
+@startuml
+title: sql红包池\ngithub.com/nimoc/blog/issues/42
+actor user1
+database pools
+actor user2 #skyblue
+
+user1 -> pools: 查询ID
+note left: pid = SELECT id FROM pools LIMIT 1
+user2 -> pools: 查询ID
+note right: pid = SELECT id FROM pools LIMIT 1
+user1 -> pools: 事务FOR UPDATE(成功)
+note left: BEGIN\nSELECT * FROM pools WHERE id = pid FOR UPDATE\n...\nCOMMIT
+user1 -> user1: 中奖
+user2 -> pools: 事务FOR UPDATE(堵塞)
+note right: BEGIN\nSELECT * FROM pools WHERE id = pid FOR UPDATE\n...\nCOMMIT
+pools -> user2: 堵塞结束，但数据已经被使用 used = 1
+user2 -> user2: 谢谢惠顾
+@enduml
