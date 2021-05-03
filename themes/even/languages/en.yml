@@ -1,0 +1,41 @@
+menu:
+  home: Home
+  archives: Archives
+  tags: Tags
+  categories: Categories
+  about: About
+
+footer:
+  powered: "Powered by %s"
+  theme: Theme
+
+posts:
+  prev: Prev
+  next: Next
+  prev_post: Prev
+  next_post: Next
+  toc: Contents
+  readmore: Read more..
+  visits: Visits
+  reward: 'Reward'
+
+copyright:
+  author: 'Author'
+  link: 'Link'
+  license: 'License'
+
+counter:
+  archives:
+    zero: No Posts
+    one: 1 Post
+    other: "%d Posts In Total"
+
+  tagcloud:
+    zero: No tags
+    one: 1 Tag In Total
+    other: "%d Tags In Total"
+
+  categories:
+    zero: No Categories
+    one: 1 Category In Total
+    other: "%d Categories In Total"
