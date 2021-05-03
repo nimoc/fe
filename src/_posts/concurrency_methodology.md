@@ -9,7 +9,7 @@ issues: 42
 
 # 解决并发方法论
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
+[![nimo.fun](http://nimo.fun/notice/index.svg)](https://nimo.fun/notice/)
 
 首先记住以下几点
 

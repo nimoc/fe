@@ -2,7 +2,7 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
-title: nimoc.io 技术博客
+title: nimo.fun技术博客
 # Site
 author: nimoc
 subtitle: '技术博客'
@@ -14,7 +14,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://nimoc.io
+url: https://nimo.fun
 permalink: :title/
 permalink_defaults:
 pretty_urls:
@@ -101,7 +101,7 @@ ignore: plantuml.jar
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: vexo
+theme: even
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

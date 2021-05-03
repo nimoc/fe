@@ -9,7 +9,7 @@ issues: 41
 
 # Redis实践
 
-[![nimoc.io](http://nimoc.io/notice/index.svg)](https://nimoc.io/notice/)
+[![nimo.fun](http://nimo.fun/notice/index.svg)](https://nimo.fun/notice/)
 
 ## Cache Aside（边路缓存）
 
