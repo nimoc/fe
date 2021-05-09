@@ -26,7 +26,7 @@ issues: 49
 通过代码记忆最为合适
 
 [var_new](./var_new_make/var_new/main.go)
-```.go
+```go
 package main
 
 import (
@@ -86,7 +86,7 @@ func main () {
 ## var make slice array
 
 [var_make_slice_array](./var_new_make/var_make_slice_array/doc_test.go)
-```.go
+```go
 package doc_test
 
 import (
@@ -184,7 +184,7 @@ func TestMakeArrayLen0Cap2Panic(t *testing.T) {
 ## var make map
 
 [var_make_map](./var_new_make/var_make_map/doc_test.go)
-```.go
+```go
 package doc_test
 
 import (
@@ -228,7 +228,7 @@ func TestMakeMap(t *testing.T) {
 ## make chan
 
 [make_chan](./var_new_make/make_chan/main.go)
-```.go
+```go
 package main
 
 import "log"
