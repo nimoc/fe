@@ -5,8 +5,6 @@ date: 2021-02-27
 tags: 后端
 keywords: 缓存实践,边路缓存,缓存击穿
 description: 使用 redis 作为缓存的实战经验
-tags:
-- 后端
 issues: 41
 ----
 

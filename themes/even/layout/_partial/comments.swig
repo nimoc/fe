@@ -1,3 +1,13 @@
+{%- if page.issues -%}
+<script src="https://utteranc.es/client.js"
+        repo="nimoc/blog"
+        issue-number="{{page.issues}}"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+{%- endif -%}
+
 {%- if page.comments and not is_home() -%}
   <div class="comments" id="comments">
     {%- if theme.disqus_shortname -%}

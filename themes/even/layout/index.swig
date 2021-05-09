@@ -16,4 +16,11 @@
       {{ archive_template.render() }}
     {%- endif -%}
   </section>
+  <script src="https://utteranc.es/client.js"
+          repo="nimoc/blog"
+          issue-number="50"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
 {%- endblock -%}

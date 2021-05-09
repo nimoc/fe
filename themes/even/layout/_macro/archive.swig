@@ -46,6 +46,9 @@
           <a href="{{ url_for(post.path) }}" class="archive-post-link">
             {{ post.title }}
           </a>
+          {%- for tag in post.tags -%}
+            <span class="home-tags" }}">{{ tag.name }}</span>
+          {%- endfor -%}
         </span>
       </div>
     {%- endfor -%}

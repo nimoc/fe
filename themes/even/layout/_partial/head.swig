@@ -77,4 +77,10 @@ display:none;
 html body {
   background:white;
 }
+.home-tags {
+    font-size:12px;
+    background:rgba(111,111,111,.1);
+    border-radius:.3em;
+    padding:.2em .3em;
+}
 </style>
