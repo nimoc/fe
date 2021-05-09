@@ -1,6 +1,8 @@
 ----
-title: 解决并发方法论
+title: 并发实践
 date: 2021-02-27
+keywords: 并发实践
+description: redis 互斥锁,sql资源池,红包池
 tags:
 - 后端
 - 并发
@@ -18,7 +20,7 @@ issues: 42
 3. **竞态**：考虑会有其他线程/协程/同一时间对数据进行修改
 4. 通过时序图分析问题 https://plantuml.com/zh/
 
-## 互斥锁
+## redis 互斥锁
 
 以 redis 互斥锁为案例实现上述方法论：
 
@@ -113,6 +115,6 @@ SQL UPDATE 是原子性操作，所以极限并发情况下，一万个请求在
 
 > 如果加上 order by 就能在sql中模拟栈和队列。
 
-TODO:解锁失败后锁回滚，心跳续命锁，etcd分布式锁
+> 红包业务可以考虑不使用红包池，而使用可发红包数量。这里不继续展开，感兴趣的可以给作者留言。 https://github.com/nimoc/blog
 
-原文地址 https://github.com/nimoc/blog/issues/42 (原文持续更新)
+原文地址 https://nimo.fun/concurrency_practice/ (原文保持持续更新和更多的评论)

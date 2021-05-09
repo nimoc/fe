@@ -235,7 +235,7 @@ test("updateSQL", function (){
 
 如果你觉得本文观点不错,请将本文推荐给你的朋友或同事
 
-原文地址 https://github.com/nimoc/blog/issues/34 (原文保持持续更新和更多的评论)
+原文地址 https://nimo.fun/ts_go_generics/ (原文保持持续更新和更多的评论)
 
 
 `;

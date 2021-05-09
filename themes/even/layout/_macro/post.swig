@@ -1,7 +1,7 @@
 {%- macro render(post) -%}
   <article class="post">
     <header class="post-header">
-      <h1 class="post-title">
+      <h1 class="post-title" id="{{ post.title }}" >
         {%- if is_home() -%}
           <a class="post-link" href="{{ url_for(post.path) }}">{{ post.title }}</a>
         {%- else -%}

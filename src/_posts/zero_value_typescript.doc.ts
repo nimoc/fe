@@ -300,7 +300,7 @@ interface iSome {
 
 如果你觉得空值函数的设计不错,请将本文推荐给你的朋友或同事
 
-原文地址 https://github.com/nimoc/blog/issues/33 (原文保持持续更新)
+原文地址 https://nimo.fun/zero_value_typescript/ (原文保持持续更新)
 
 这样能让更多人提供更安全的make函数.
 

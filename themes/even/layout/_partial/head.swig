@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="https://nimo.fun/css/style.css?v=2.11.0" />
 {#- Website mata -#}
 {%- include "./_head/meta.swig" -%}
 
@@ -53,8 +54,8 @@ font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, "PingFa
 letter-spacing:-.02em;
 }
 html .post .post-content img {
-  box-shadow: 0px 0px .2em rgba(111,111,111,.4);
-  border-radius:.5em;
+  border:.1em rgba(11,11,11,.2) dotted;
+  border-radius:.3em;
   margin-left:auto;
   margin-right:auto;
   display:block;

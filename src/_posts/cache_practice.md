@@ -3,8 +3,11 @@
 title: Redis实践
 date: 2021-02-27
 tags: 后端
+keywords: 缓存实践,边路缓存,缓存击穿
+description: 使用 redis 作为缓存的实战经验
+tags:
+- 后端
 issues: 41
-
 ----
 
 # Redis实践
@@ -334,7 +337,7 @@ function QuestionByID(id string, retry int) {
 
 > 如果数据的id是自增id这种已经被简单穷举递增的，则要注意如果有恶意攻击者递增id攻击。会导致第一秒因为查询无效某个id设为了无效（超时10s），第二秒有新数据创建，新数据的id刚好是这个id.此时就会导致新数据10s内无法被访问。所以是数字id应该将缓存过期时间设置的短一点，能防御恶意攻击即可。
 
-当数据量非常大时 hash 存储无效id会导致缓存数据过大，可以使用[布隆过滤器](https://www.dogedoge.com/results?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8) 降低缓存大小。可以根据实际情况选择合适的方式。
+当数据量非常大时 hash 存储无效id会导致缓存数据过大，可以使用[布隆过滤器](https://cn.bing.com/search?q=%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8) 降低缓存大小。可以根据实际情况选择合适的方式。
 
 ### 更新数据时同步缓存
 
@@ -409,7 +412,7 @@ field: goods_id,inventory
 ```
 
 因为 `inventory` 在下单时是热点数据读多写多，而 `title` `describe` 读多写少非常低。
-所以将 `inventory` [水平分表](https://www.dogedoge.com/results?q=%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8)。
+所以将 `inventory` [水平分表](https://cn.bing.com/search?q=%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8)。
 
 `title`, `describe` 通过Cache Aside（边路缓存）实现，与question类似。
 
@@ -517,4 +520,4 @@ func newsUV(newsID) {
 
 但要注意 HyperLogLog 会存在 0.81% 的误差，在数据不敏感的情况下 hyperloglogs 是个不错的选择。
 
-原文地址 https://github.com/nimoc/blog/issues/41 (原文持续更新)
+原文地址 https://nimo.fun/cache_practice/ (原文保持持续更新和更多的评论)
