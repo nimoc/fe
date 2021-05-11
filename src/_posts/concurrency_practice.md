@@ -27,32 +27,32 @@ issues: 42
 先看一下不严谨的上锁操作会产生的问题
 
 
-![](./concurrency_methodology/1-1.png)
+![](./concurrency_practice/1-1.png)
 
 可以通过 SET key value  EX seconds NX 保证原子性
 
-![](./concurrency_methodology/1-2.png)
+![](./concurrency_practice/1-2.png)
 
 上锁操作已经解决了原子性问题，接下来看不严谨的解锁操作会产生的问题
 
 
-![](./concurrency_methodology/1-3.png)
+![](./concurrency_practice/1-3.png)
 
 为了解决延迟导致的错误解锁，通过不严谨的超时判断解决问题
 
 > 请先不要看红色注释框,自己分析存在的问题。然后查看红色注释框确认答案
 
-![](./concurrency_methodology/1-4.png)
+![](./concurrency_practice/1-4.png)
 
 在上锁时设置密码，在解锁时验证密码以避免删除了别人的锁
 
-![](./concurrency_methodology/1-5.png)
+![](./concurrency_practice/1-5.png)
 
 ## sql红包池
 
 考虑如下业务场景：
 
-![](./concurrency_methodology/turntable.jpg)
+![](./concurrency_practice/turntable.jpg)
 
 每访问4次页面（UV）会产生一个微信红包在红包池中，点击立即抽奖时候会查询红包池。
 
@@ -89,7 +89,7 @@ id,used,amount,owner_key
 例如三个用户请求一起进入查询，会全部去尝试给 id:1 上锁，只有一个请求能上锁成功。
 其余2个请求都会失败。
 
-![](./concurrency_methodology/2-1.png)
+![](./concurrency_practice/2-1.png)
 
 采用 **CAS** (Compare And Swap)乐观锁和**数据标记** `owner_key`来实现。
 
