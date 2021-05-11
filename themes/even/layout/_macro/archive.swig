@@ -47,7 +47,7 @@
             {{ post.title }}
           </a>
           {%- for tag in post.tags -%}
-            <span class="home-tags" }}">{{ tag.name }}</span>
+            <code class="home-tags">{{ tag.name }}</code>
           {%- endfor -%}
         </span>
       </div>
