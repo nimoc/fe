@@ -4,7 +4,6 @@ date: 2021-02-11
 keywords: go,go new,go slice,go var,go make
 description: 本文主要通过代码示例和原因来解释 var new make 之间的区别。
 tags:
-- 后端
 - go
 issues: 49
 ----
