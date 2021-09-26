@@ -31,3 +31,5 @@ JavaScript 的类型系统并不只是只有 TypeScript ,但在前端领域目�
 在后端领域,如果团队有足够的精力并且明显感觉到了本文说到的js历史包袱和ts后端生态参差不齐,可以考虑使用 [rescript](https://rescript-lang.org.cn/) 开发一套完整的后端工具链. rescript的类型系统更加严格,可减少类型体操的出现,减少类型代码复杂度.
 
 > 后端也不必非要限制在 Node, 了解了解其他母胎就自带强类型系统的语言也是可以的.
+
+在Github发表评论: https://github.com/nimoc/fe/discussions/55

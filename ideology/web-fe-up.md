@@ -140,3 +140,5 @@ Swift Kotlin Java 都是不错的语言,了解他们后再回头写 TypeScript �
 ## 总结
 
 始于前端,不局限于前端.**不要把自己限制在客户端的实现者,让自己参与产品程序设计,精前端,懂业务,懂后端.
+
+在Github发表评论: https://github.com/nimoc/fe/discussions/40

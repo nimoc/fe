@@ -291,3 +291,5 @@ interface iSome {
 如果你觉得空值函数的设计不错,请将本文推荐给你的朋友或同事
 
 这样能让更多人提供更安全的make函数.
+
+在Github发表评论: https://github.com/nimoc/fe/discussions/59

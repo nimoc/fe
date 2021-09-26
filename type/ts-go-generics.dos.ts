@@ -222,4 +222,6 @@ test("updateSQL", function (){
 
 如果你觉得本文观点不错,请将本文推荐给你的朋友或同事
 
+在Github发表评论: https://github.com/nimoc/fe/discussions/57
+
 `;
